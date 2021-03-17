@@ -1,0 +1,123 @@
+.card-header .btn {
+	float: right;
+}
+
+.card-header > i {
+	padding-top: 10px;
+}
+
+.alert {
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+
+.button-form {
+	margin-right: 3px;
+}
+
+.actions-label {
+	text-align: center;
+}
+
+.action-col {
+	display: inline-flex;
+    padding: 3px 3px 3px 3px !important; 
+}
+
+.btn-action {
+	width: 40px;
+	margin-right: 1px;
+	text-align: center;
+}
+
+/*----------------------------------------------------------------------------------------------------*/
+
+/* Pagination responsive */
+
+@media screen and (max-width: 540px) {
+	.page-item-10 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 525px) {
+	.page-item-9 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 495px) {
+	.page-item-8 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 470px) {
+	.page-item-7 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 445px) {
+	.page-item-6 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 420px) {
+	.page-item-5 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 395px) {
+	.page-item-4 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 370px) {
+	.page-item-3 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 350px) {
+	.page-item-2 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.page-item-1 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 300px) {
+	.page-item-0 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 270px) {
+	.page-item-end {
+		display: none;
+	}
+
+	.page-item-start {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 240px) {
+	.page-item-prev {
+		display: none;
+	}
+
+	.page-item-next {
+		display: none;
+	}
+}
+
+/*----------------------------------------------------------------------------------------------------*/

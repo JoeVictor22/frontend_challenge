@@ -1,1 +1,2 @@
-# frontend_challenge
+# guerreirinhos-frontend
+Front-end do projeto guerreirinhos
