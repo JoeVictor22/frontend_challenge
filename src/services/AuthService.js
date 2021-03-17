@@ -1,235 +1,298 @@
-import decode from 'jwt-decode';
-import { Properties } from '../config';
+import decode from "jwt-decode";
+import { Properties } from "../config";
+import axios from "axios";
 
-class AuthService 
-{
+class AuthService {
+  /*----------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------------------------------*/
+  constructor(domain) {
+    this.domain = domain || Properties.domain;
+    this.fetch = this.fetch.bind(this);
+    this.login = this.login.bind(this);
+    this.user = null;
+  }
 
-	constructor(domain)
-	{
-		this.domain			= domain || Properties.domain;
-		this.fetch			= this.fetch.bind(this);
-		this.login			= this.login.bind(this);
-		this.user  			= null;
-	}
+  /*----------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------------------------------*/
+  login(username, password) {
+    let url_atual = window.location.href;
+    return this.fetch(`${this.domain}/auth`, {
+	method: "post",
+	email: username,
+	senha: password,
 
-	login(username, password) 
-	{
-		return this.fetch(`${this.domain}/auth`,
-			{
-				method: 'POST',
-				body: JSON.stringify({
-					username: username, 
-					password: password
-				})
-			}
-		).then(res =>
-		{
-			if (!res.error) 
-			{
-				this.setToken(res.access_token);
-				this.setRefreshToken(res.refresh_token);
-				this.setUser({role: res.user_role});
-				this.updateProfile(res.access_token);
-			}
-			
-			return Promise.resolve(res);
-		});
-	}
+    }).then((res) => {
 
-/*----------------------------------------------------------------------------------------------------*/
-
-	loggedIn() 
-	{
-		const token = this.getToken();
+	console.log("res login", res)
+	if (!res.error) {
+		this.setToken(res.access_token);
+		this.setRefreshToken(res.refresh_token);
+		this.setUser({ role: res.user_role });
 		
-		if (!!!token) {
-			return false;
+		//used if is needed to get more data about the user
+		this.updateProfile(res.access_token, url_atual);
+	}
+      return Promise.resolve(res);
+    });
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+
+  loggedIn() {
+    const token = this.getToken();
+    if (!!!token) {
+      return false;
+    }
+
+    if (this.isTokenExpired(token)) {
+      const rfToken = this.getRefreshToken();
+
+      if (this.isTokenExpired(rfToken)) {
+        this.logout();
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+
+  isTokenExpired(token) {
+    try {
+      const decoded = decode(token);
+
+      return decoded.exp < Date.now() / 1000;
+
+    } catch (err) {
+      return false;
+    }
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+
+  doRequest(url, method, data, headers, responseType = null) {
+    if (this.loggedIn()) {
+      const token = this.getToken();
+
+      if (this.isTokenExpired(token)) {
+        let self = this;
+        return axios({
+          url: `${this.domain}/refresh`,
+          method: "POST",
+          headers: {
+            Authorization: self.getAuthorizationRefreshHeader(),
+            ...headers,
+          },
+        }).then((res) => {
+          if (res.status === 200) {
+            console.log("token refreshed");
+            self.setToken(res.data.access_token);
+
+            let request = {
+              url: `${self.domain}/${url}`,
+              method: method,
+              responseType: responseType,
+              headers: {
+                Authorization: self.getAuthorizationHeader(),
+                ...headers,
+              },
+            };
+
+            if (method === "GET") {
+              request = {
+                ...request,
+                params: data,
+              };
+            } else {
+              request = {
+                ...request,
+                data: data,
+              };
+            }
+
+            return this.axiosHandler(request);
+          }
+        });
+      } else {
+        let request = {
+          url: `${this.domain}/${url}`,
+          method: method,
+          responseType: responseType,
+          headers: {
+            Authorization: this.getAuthorizationHeader(),
+          },
+        };
+
+        if (method === "GET") {
+          request = {
+            ...request,
+            params: data,
+          };
+        } else {
+          request = {
+            ...request,
+            data: data,
+          };
+        }
+
+        return this.axiosHandler(request);
+      }
+    } else {
+      this.logout();
+    }
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+  axiosHandler(request) {
+    return axios(request)
+    .then(this._checkStatus)
+    .catch((error) => {
+	// in case of error, this is the data persisted to the client
+
+	console.log("error axiosHandler", error.response);
+      let res = {
+        'error': true,
+        'data': {
+		...error?.response?.data
+        }
+      }
+      return res;
+    });
+  }
+    /*----------------------------------------------------------------------------------------------------*/
+
+  _checkStatus(response) {
+	console.log("status", response)
+	    if (response.status >= 200 && response.status < 300) {
+		return response;
+	    }else {
+	      var error = new Error(response.statusText);
+	      error.response = response;
+	      
+	      console.log("status", error)
+	      throw error;
 		}
+	  }
 
-		if (this.isTokenExpired(token)) 
-		{
-			const rfToken = this.getRefreshToken();
+  /*----------------------------------------------------------------------------------------------------*/
 
-			if(this.isTokenExpired(rfToken)) {
-				return false;
-			}
+  setToken(idToken) {
+    localStorage.setItem("id_token", idToken);
+  }
 
-			this.refreshToken(rfToken);
-		}
-		
-		return true;
+  /*----------------------------------------------------------------------------------------------------*/
+
+  getToken() {
+    return localStorage.getItem("id_token");
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+
+  setRefreshToken(idToken) {
+    localStorage.setItem("id_refresh_token", idToken);
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+
+  getRefreshToken() {
+    return localStorage.getItem("id_refresh_token");
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+
+  logout() {
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("id_refresh_token");
+    localStorage.removeItem("user_profile_role");
+    localStorage.removeItem("user_profile_email");
+    localStorage.removeItem("user_profile_username");
+    localStorage.removeItem("user_profile_rolename");
+
+    window.location.reload();
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+
+  updateProfile(token, url) {
+	const request = {
+		url:`${this.domain}/me`,
+		method:"get",
+		headers: { Authorization: "Bearer " + token },
+
 	}
-
-/*----------------------------------------------------------------------------------------------------*/
-
-	refreshToken(refreshTokenId) 
-	{
-		return fetch(`${this.domain}/refresh`,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + this.getRefreshToken()
-				},	
-				method: 'POST'
-			}
-		).then(res => 
-		{
-			res.json().then(json => 
-			{
-				this.setToken(json.access_token);
-				console.log("token refreshed");	
-			})
-		});
-	}
-
-/*----------------------------------------------------------------------------------------------------*/
-
-	isTokenExpired(token) 
-	{
-		try
-		{
-			const decoded = decode(token);
-
-			if (decoded.exp < Date.now() / 1000) {
-				return true;
-			} 
-			
-			return false;
-
-		} catch(err) {
-			return false;
-		}
-	}
-
-/*----------------------------------------------------------------------------------------------------*/
-
-	setToken(idToken) {
-		localStorage.setItem('id_token', idToken);
-	}
-
-/*----------------------------------------------------------------------------------------------------*/
-
-	getToken() {
-		return localStorage.getItem('id_token');
-	}
-
-/*----------------------------------------------------------------------------------------------------*/
-
-	setRefreshToken(idToken) {
-		localStorage.setItem('id_refresh_token', idToken);
-	}
-
-/*----------------------------------------------------------------------------------------------------*/
-
-	getRefreshToken() {
-		return localStorage.getItem('id_refresh_token');
-	}
-
-/*----------------------------------------------------------------------------------------------------*/
-
-	logout() {
-		localStorage.removeItem('id_token');
-		localStorage.removeItem('id_refresh_token');
-		localStorage.removeItem('user_profile_role');
-		localStorage.removeItem('user_profile_email');
-		localStorage.removeItem('user_profile_username');
-
-		window.location.replace("/");
-	}
-
-/*----------------------------------------------------------------------------------------------------*/
+    
+    this.axiosHandler({request}).then((res) => {
 	
-	updateProfile(token) {
-		fetch(`${this.domain}/me`,
-			{
-				method: 'GET',
-				headers: {Authorization: 'Bearer ' + token}
-			}
-		)
-			.then(res => 
-			{
-				res.json().then(json => {
-						localStorage.setItem('user_profile_role', json.role_id);
-						localStorage.setItem('user_profile_email', json.email);
-						localStorage.setItem('user_profile_username', json.username);
-					}
-				)
-			}
-		)	
+	  localStorage.setItem("user_profile_role", res.cargo_id);
+	  localStorage.setItem("user_profile_email", res.email);
+  	})
 	}
 
-/*----------------------------------------------------------------------------------------------------*/
-	
-	setUser(data) {
-		this.user = data;
-	}
+  /*----------------------------------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------------------------------*/
-	
-	getUser() {
-		return this.user;
-	}
+  setUser(data) {
+    this.user = data;
+  }
 
-/*----------------------------------------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------------------------------*/
 
-	getUserRole() 
-	{
-		if (this.getUser() == null) {
-			return localStorage.getItem('user_profile_role');
-		} 
-		else {
-			return this.getUser().role;
-		}
-	}
+  getUser() {
+    return {
+      logged: this.loggedIn(),
+      token: localStorage.getItem('id_token'),
+      refreshToken: localStorage.getItem('id_refresh_token'),
+      role: localStorage.getItem('user_profile_role'),
+      email: localStorage.getItem('user_profile_email'),
+    };
+  }
 
-/*----------------------------------------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------------------------------*/
 
-	getAuthorizationHeader() {
-		return 'Bearer ' + this.getToken();
-	}
+  getUserRole() {
+    if (this.getUser() == null) {
+      return localStorage.getItem("user_profile_role");
+    } else {
+      return this.getUser().role;
+    }
+  }
 
-/*----------------------------------------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------------------------------*/
 
-	fetch(url, options) 
-	{	
-		const headers = {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		}
+  getAuthorizationHeader() {
+    return "Bearer " + this.getToken();
+  }
 
-		if (this.loggedIn()) {
-			headers['Authorization'] = this.getAuthorizationHeader();
-		}
+  /*----------------------------------------------------------------------------------------------------*/
 
-		return fetch(url, 
-		{
-			headers,
-			...options
-		})
-			.then(this._checkStatus)
-			.then(response => response.json())
-	}
+  getAuthorizationRefreshHeader() {
+    return "Bearer " + this.getRefreshToken();
+  }
 
-/*----------------------------------------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------------------------------*/
 
-	_checkStatus(response) {
-		if (response.status >= 200 && response.status < 300) {
-			return response;
-		} 
-		else 
-		{
-			var error = new Error(response.statusText);
-			error.response = response;
-			throw error;
-		}
-	}
+  fetch(url, options) {
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
 
-/*----------------------------------------------------------------------------------------------------*/
+    if (this.loggedIn()) {
+      headers["Authorization"] = this.getAuthorizationHeader();
+    }
+    
+    const request = {
+	    url:url,
+	    method:"post",
+	    data:options
+    }
 
+    return this.axiosHandler(request)
+  }
+
+  /*----------------------------------------------------------------------------------------------------*/
+
+ 
 }
 
 export default AuthService;

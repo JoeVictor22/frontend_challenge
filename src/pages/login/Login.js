@@ -25,12 +25,12 @@ class Login extends Component
 	{
 		return (
 			<CenterCard title='page.user.login.title'>
-                <form onSubmit={ this.handleSubmit }>
-					<InputInGroup type="text" name="username" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+				<form onSubmit={ this.handleSubmit }>
+					<InputInGroup type="text" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
 						label='page.user.fields.username' required="required" autofocus="autofocus" />
-					<InputInGroup type="password" name="password" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
+					<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
 						label='page.user.fields.password' required="required" />
-					<RememberMeInGroup text='page.user.fields.remember' />
+					
 					<ButtonSubmit type="submit" text='page.user.login.submit' />
 				</form>
 			</CenterCard>
@@ -64,7 +64,7 @@ class Login extends Component
     handleSubmit(e) 
     {
     	e.preventDefault();
-    	this.Auth.login(this.state.username, this.state.password)
+    	this.Auth.login(this.state.email, this.state.senha)
     		.then(res => {
     			if (res.error)
     			{

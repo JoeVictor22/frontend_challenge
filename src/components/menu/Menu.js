@@ -13,8 +13,6 @@ class Admin extends Component
 				<SideBarItem active={ false } url="/" name='menu.dashboard' icon={ Icons.dashboard } />
 			
 				<SideBarItem active={ false } url="/user/list" name='menu.user.title' icon={ Icons.stagecenter } />
-				<SideBarItem active={ false } url="/cidade/list" name='menu.cidade.title' icon={ Icons.stagecenter } />
-				<SideBarItem active={ false } url="/uf/list" name='menu.uf.title' icon={ Icons.stagecenter } />
 
 			</SideBar>
 		);

@@ -6,8 +6,6 @@ import MasterLayout from './components/masterLayout/MasterLayout'
 import Home from './pages/home/Home';
 import About from './pages/about/About';
 import {UsersList, UsersAdd, UsersEdit, UsersView} from './pages/users/Users';
-import {CidadeList, CidadeAdd, CidadeEdit, CidadeView} from './pages/cidade/Cidade';
-import {UfList, UfAdd, UfEdit, UfView} from './pages/uf/Uf';
 
 import Login from './pages/login/Login';
 
@@ -47,16 +45,7 @@ function Routes()
 							<PrivateRoute path="/user/edit" component={ (privateRouteProps) => (<UsersEdit {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/user/view" component={ (privateRouteProps) => (<UsersView {...privateRouteProps} {...props} />) } />
 
-							<PrivateRoute path="/cidade/list" component={ (privateRouteProps) => (<CidadeList {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/cidade/add" component={ (privateRouteProps) => (<CidadeAdd {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/cidade/edit" component={ (privateRouteProps) => (<CidadeEdit {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/cidade/view" component={ (privateRouteProps) => (<CidadeView {...privateRouteProps} {...props} />) } />
-
-							<PrivateRoute path="/uf/list" component={ (privateRouteProps) => (<UfList {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/uf/add" component={ (privateRouteProps) => (<UfAdd {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/uf/edit" component={ (privateRouteProps) => (<UfEdit {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/uf/view" component={ (privateRouteProps) => (<UfView {...privateRouteProps} {...props} />) } />
-
+						
 							<Route path="/login" component={ Login } />
 						</Switch>
 				}

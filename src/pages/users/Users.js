@@ -13,7 +13,7 @@ const Messages = new MessageService();
 class UsersList extends BasePageList 
 {
 	static defaultProps = {
-		urlBase: 'user/all',
+		urlBase: 'usuario/all',
 		title: 'menu.user.title',
 		fields: [
 			{
@@ -22,8 +22,8 @@ class UsersList extends BasePageList
 				width: "5%"
 			},
 			{
-				label: 'page.user.fields.username',
-				field: "username",
+				label: 'page.user.fields.email',
+				field: "email",
 				width: "95%"	
 			}
 		]
@@ -31,12 +31,12 @@ class UsersList extends BasePageList
 
 	render() 
 	{
-		let input_fields = [{label: 'page.user.fields.username', field: "username"}];
+		let input_fields = [{label: 'page.user.fields.email', field: "email"}];
 		let filter = <Filter fields={input_fields} onChange={this.handleChange} onSubmit={this.handleOnSubmitFilter}/>;
 		return (
 			<TableData onClickPage={ this.handleClickPage } title='page.user.list.title' 
 				fields={ this.props.fields } data={ this.state.itens } pagination={ this.state.pagination }
-				actions={ this.state.actions } addUrl='/user/add' onEdit={ this.handleOnEditAction }
+				actions={ this.state.actions } addUrl='/usuario/add' onEdit={ this.handleOnEditAction }
 				onDelete={ this.handleOnDeleteAction } onView={ this.handleOnViewAction } filter={filter}/>
 		);
 	}
@@ -48,7 +48,7 @@ class UsersList extends BasePageList
 class UsersAdd extends BasePageForm 
 {
 	static defaultProps = {
-		urlBase: 'user/add',
+		urlBase: 'usuario/add',
 		title: Messages.getMessage('menu.user.title')
 	};
 
@@ -61,17 +61,13 @@ class UsersAdd extends BasePageForm
 						label='page.user.fields.email' required="required" colsize="6" />
 				</FormRow>
 				<FormRow>
-					<InputInGroup type="text" name="username" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-						label='page.user.fields.username' required="required" colsize="6" />
-				</FormRow>
-				<FormRow>
 					<InputInGroup type="password" name="password" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
 						label='page.user.fields.password' required="required" colsize="6" />
 				</FormRow>
 
 				<FormRow>
-					<SelectField empty={ true } value_name="id" name='role_id' errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.user.fields.role' required="required" colsize="6" url="roles/all" />
+					<SelectField empty={ true } value_name="id" name='cargo_id' errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" />
 				</FormRow>
 
 				<FormRow>
@@ -93,7 +89,7 @@ class UsersEdit extends BasePageForm
 		this.handleResponse = this.handleResponse.bind(this);
 	}
 	static defaultProps = {
-		urlBase: 'user/edit',
+		urlBase: 'usuario/edit',
 		title: Messages.getMessage('menu.user.title')
 	};
 
@@ -103,7 +99,7 @@ class UsersEdit extends BasePageForm
 			return;
 		}
 		let id = this.props.location.state.item_id;
-		Rest.view( "user/view/" + id, this.state).then(this.handleResponse);
+		Rest.view( "usuario/view/" + id, this.state).then(this.handleResponse);
 	}
 
 	handleResponse(data) {
@@ -122,13 +118,8 @@ class UsersEdit extends BasePageForm
 						label='page.user.fields.email' required="required" colsize="6" value={this.state.email}/>
 				</FormRow>
 				<FormRow>
-					<InputInGroup type="text" name="username" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-						label='page.user.fields.username' required="required" colsize="6" value={this.state.username}/>
-				</FormRow>
-
-				<FormRow>
-					<SelectField empty={ true } name="name" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.user.fields.role' required="required" colsize="6" url="roles/all" />
+					<SelectField empty={ true } name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" value={this.state.cargo_id} />
 				</FormRow>
 
 				<FormRow>
@@ -161,7 +152,7 @@ class UsersView extends BasePageForm
 		});
 	}
 	static defaultProps = {
-		urlBase: 'user/view',
+		urlBase: 'usuario/view',
 		title: Messages.getMessage('menu.user.title')
 	};
 
@@ -171,7 +162,7 @@ class UsersView extends BasePageForm
 			return;
 		}
 		let id = this.props.location.state.item_id;
-		Rest.view( "user/view/" + id, this.state).then(this.handleResponse);
+		Rest.view( "usuario/view/" + id, this.state).then(this.handleResponse);
 	}
 
 	handleResponse(data) {
@@ -181,7 +172,10 @@ class UsersView extends BasePageForm
 	}
 	render()
 	{
-		let fields = [{label:"Email: ", value:this.state.email}];
+		let fields = [
+			{label:"Email: ", value:this.state.email},
+			{label:"Cargo: ", value:this.state.cargo_id}
+		];
 		return (
 			this.state.error ?
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
