@@ -47,12 +47,15 @@ class Login extends Component
 
     handleErrorLogin(errors)
     {
-        let arrErrors = [];
-        let arrKeys = Object.keys(errors.fields)
-        
-        for (let i = 0; i < arrKeys.length; i++) {
-            arrErrors[arrKeys[i]] = errors.fields[arrKeys[i]].message;
-        }
+		console.log("errors login", errors)
+		let arrErrors = [];
+			
+		if (errors.validation_error){
+			let array = errors.validation_error.body_params;
+			for (const item of array){
+				arrErrors[item.loc[0]] = item.msg;
+			}
+		}
 
         this.setState({
             fieldErrors: arrErrors,
@@ -66,9 +69,9 @@ class Login extends Component
     	e.preventDefault();
     	this.Auth.login(this.state.email, this.state.senha)
     		.then(res => {
-    			if (res.error)
+    			if (res.data.error)
     			{
-    				this.handleErrorLogin(res.errors);
+    				this.handleErrorLogin(res.data);
     			} else {
     				AlertifySuccess([{message: Message.getMessage('page.user.login.success')}]);
                     this.props.history.push('/');

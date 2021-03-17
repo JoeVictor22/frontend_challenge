@@ -17,20 +17,22 @@ class AuthService {
   login(username, password) {
     let url_atual = window.location.href;
     return this.fetch(`${this.domain}/auth`, {
-	method: "post",
-	email: username,
-	senha: password,
+          method: "post",
+          email: username,
+          senha: password,
 
     }).then((res) => {
 
 	console.log("res login", res)
-	if (!res.error) {
-		this.setToken(res.access_token);
-		this.setRefreshToken(res.refresh_token);
-		this.setUser({ role: res.user_role });
+	if (!res.data.error) {
+		this.setToken(res.data.access_token);
+		this.setRefreshToken(res.data.refresh_token);
+    localStorage.setItem("user_profile_role", res.data.cargo_id);
+
+    //this.setUser({ role: res.data.cargo_id });
 		
-		//used if is needed to get more data about the user
-		this.updateProfile(res.access_token, url_atual);
+		//used if is needed to get more data about the user, TODO: fix function
+    //this.updateProfile(res.data.access_token, url_atual);
 	}
       return Promise.resolve(res);
     });
@@ -61,7 +63,7 @@ class AuthService {
   isTokenExpired(token) {
     try {
       const decoded = decode(token);
-
+		
       return decoded.exp < Date.now() / 1000;
 
     } catch (err) {
@@ -154,6 +156,7 @@ class AuthService {
       let res = {
         'error': true,
         'data': {
+		'error': true,
 		...error?.response?.data
         }
       }
@@ -217,15 +220,14 @@ class AuthService {
   updateProfile(token, url) {
 	const request = {
 		url:`${this.domain}/me`,
-		method:"get",
+		method:"GET",
 		headers: { Authorization: "Bearer " + token },
 
 	}
     
     this.axiosHandler({request}).then((res) => {
-	
-	  localStorage.setItem("user_profile_role", res.cargo_id);
-	  localStorage.setItem("user_profile_email", res.email);
+      console.log("update", res)
+     
   	})
 	}
 
