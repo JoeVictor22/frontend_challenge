@@ -49,6 +49,7 @@ class BasePageForm extends BasePage
 				this.setState({
 					fieldErrors: arrErrors,
 				});
+				AlertifyError([{"message": "Ocorreram errors durante a validação de alguns dados, verifique o formulário e tente novamente."}]);
 
 			} 
 			if (res.data.form){
