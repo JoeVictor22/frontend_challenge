@@ -5,6 +5,7 @@ import MessageService from '../../services/MessageService';
 import { Properties } from '../../config';
 import { Icons } from '../../iconSet';
 import { formatString } from '../utils/Utils';
+import  { Redirect } from 'react-router-dom'
 
 import './Layout.css';
 
@@ -122,6 +123,12 @@ class NavBar extends Component
 	handleLogoutClick() {
 		Auth.logout();
 	}
+	handleConfigClick(){
+		// TODO: fix url to receive base URL
+		setTimeout(() => {
+			window.location.href = 'http://localhost:3000/#/usuario/list';
+		  }, 500);
+	}
 
 	handleToggleSidebarClick(e) 
 	{
@@ -156,37 +163,13 @@ class NavBar extends Component
 				</button>
 
 				<ul className="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
-					<li className="nav-item dropdown no-arrow mx-1">
-						<Link className="nav-link dropdown-toggle" to="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i className="fas fa-bell fa-fw"/>
-							<span className="badge badge-danger">9+</span>
-						</Link>
-						<div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.action') }</Link>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.other') }</Link>
-							<div className="dropdown-divider"/>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.something') }</Link>
-						</div>
-					</li>
-					<li className="nav-item dropdown no-arrow mx-1">
-						<Link className="nav-link dropdown-toggle" to="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i className="fas fa-envelope fa-fw"/>
-							<span className="badge badge-danger">7</span>
-						</Link>
-						<div className="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.action') }</Link>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.other') }</Link>
-							<div className="dropdown-divider"/>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.something') }</Link>
-						</div>
-					</li>
+					
 					<li className="nav-item dropdown no-arrow">
 						<Link className="nav-link dropdown-toggle" to="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<i className="fas fa-user-circle fa-fw"/>
 						</Link>
 						<div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.user.settings') }</Link>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.user.log') }</Link>
+							<Link className="dropdown-item" to="#" onClick={ this.handleConfigClick }>{ Messages.getMessage('layout.navbar.user.settings') }</Link>
 							<div className="dropdown-divider"/>
 							<Link className="dropdown-item" to="#" onClick={ this.handleLogoutClick } data-toggle="modal" data-target="#logoutModal">{ Messages.getMessage('layout.navbar.user.logout') }</Link>
 						</div>
@@ -461,8 +444,11 @@ class TableData extends Component
 				</p>
 			</div>
 		</div>;
-		let loading = <div className="text-center">
-				<h3>Loading...</h3>
+
+		let loading = <div className="card-body">
+		<h3 style={{ textAlign: "center" }}>
+			<i className={Icons.loading} /> Carregando...
+		</h3>
 		</div>
 		return (
 		    <div className="card mb-3">

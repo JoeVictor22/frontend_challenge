@@ -97,7 +97,6 @@ class UsersEdit extends BasePageForm
 		Rest.get( "usuario/view/" + id, this.state).then(this.handleResponse);
 	}
 
-	
 
 	render() 
 	{	

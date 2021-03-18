@@ -7,7 +7,7 @@ class Home extends BasePage {
 		return (
 			<React.Fragment>
 				<div className="card text-white bg-dark">
-					<h2 className="card-header text-center text-uppercase">Guerreirinhos</h2>
+					<h2 className="card-header text-center text-uppercase">Web Admin</h2>
 					<div className="card-body p-4">
 						<h3 className="card-title">Descrição</h3>
 						<p className="card-text primary-text text-justify" style={{textIndent:"5%"}}>About.

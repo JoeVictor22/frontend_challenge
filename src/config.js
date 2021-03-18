@@ -4,17 +4,17 @@ const back_uri = process.env.REACT_APP_BACK_URI || "http://localhost:5000";
 const config = {
 	'development': {
 		'domain': 'http://localhost:5000',
-		'appName': "Frontend",
+		'appName': "Web Admin",
 		'version': "0.0.0.1",
-		'company': "Algo Tecnologia",
-		'year': "2020"
+		'company': "github.com/joevictor22",
+		'year': "2021"
 	},
 	'production': {
 		'domain': "http://localhost:5000",
-		'appName': "Frontend",
+		'appName': "Web Admin",
 		'version': "0.0.0.1",
-		'company': "Algo Tecnologia",
-		'year': "2020"
+		'company': "github.com/joevictor22",
+		'year': "2021"
 	}
 };
 
