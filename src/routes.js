@@ -9,6 +9,7 @@ import {UsersList, UsersAdd, UsersEdit, UsersView} from './pages/users/Users';
 import {PessoaList, PessoaAdd, PessoaEdit, PessoaView} from './pages/pessoa/Pessoa';
 
 import Login from './pages/login/Login';
+import Register from "./pages/register/Register";
 
 const Auth = new AuthService();
 
@@ -50,9 +51,12 @@ function Routes()
 							<PrivateRoute path="/pessoa/add" component={ (privateRouteProps) => (<PessoaAdd {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/pessoa/edit" component={ (privateRouteProps) => (<PessoaEdit {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/pessoa/view" component={ (privateRouteProps) => (<PessoaView {...privateRouteProps} {...props} />) } />
+							
 
 						
 							<Route path="/login" component={ Login } />
+							<Route path="/register" component={ Register } />
+
 						</Switch>
 				}
 				

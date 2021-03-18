@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AuthService from '../../services/AuthService';
 import MessageService from '../../services/MessageService';
 import { AlertifyError, AlertifySuccess } from '../../services/AlertifyService';
-import { CenterCard } from '../../components/template/Layout';
+import { CenterCard, FormRow } from '../../components/template/Layout';
 import { InputInGroup, RememberMeInGroup, ButtonSubmit } from '../../components/template/Form';
 
 const Message = new MessageService();
@@ -15,10 +15,16 @@ class Login extends Component
 		super();
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.registerPage = this.registerPage.bind(this);
 		this.Auth = new AuthService();
 		this.state = {
 			fieldErrors: [],
 		}; 
+	}
+	
+
+	registerPage() {
+		this.props.history.push("/register");
 	}
 	
 	render()
@@ -31,8 +37,12 @@ class Login extends Component
 					<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
 						label='page.user.fields.password' required="required" />
 					
-					<ButtonSubmit type="submit" text='page.user.login.submit' />
+					<FormRow>
+						<ButtonSubmit type="submit" text='page.user.login.submit' />
+						<ButtonSubmit onClick={this.registerPage} text='page.user.register.submit' />
+					</FormRow>
 				</form>
+
 			</CenterCard>
 		);
 	}

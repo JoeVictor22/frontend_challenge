@@ -100,6 +100,11 @@ export const Messages = {
 				"submit": "Entrar",
 				"success": "Login realizado com sucesso!"
 			},
+			"register":{
+				"title": "Cadastro novo usuário",
+				"submit": "Criar cadastro",
+				"success": "Cadastro realizado com sucesso!"
+			},
 			"list": {
 				"title": "Listar Usuários"
 			},
