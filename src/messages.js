@@ -53,6 +53,12 @@ export const Messages = {
 			"search": "Consultar",
 			"user": "Usuários"
 		},
+		"pessoa": {
+			"title": "Cadastro de dados",
+			"register": "Registrar",
+			"search": "Consultar",
+			"user": "Pessoas"
+		},
 		"uf": {
 			"title": "Estado",
 			"register": "Registrar",
@@ -99,6 +105,22 @@ export const Messages = {
 			},
 			"edit": {
 				"title": "Editar Usuários"
+			}
+
+		},
+		"pessoa": {
+			"fields": {
+				"id": "#",
+				"nome": "Nome"
+			},
+			"list": {
+				"title": "Listar cadastros de dados"
+			},
+			"add": {
+				"title": "Registrar cadastro de dados"
+			},
+			"edit": {
+				"title": "Editar cadastro de dados"
 			}
 
 		},

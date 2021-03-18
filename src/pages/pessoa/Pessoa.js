@@ -10,20 +10,20 @@ const Rest = new RestService();
 
 const Messages = new MessageService();
 
-class UsersList extends BasePageList 
+class PessoaList extends BasePageList 
 {
 	static defaultProps = {
-		urlBase: 'usuario/all',
-		title: 'menu.user.title',
+		urlBase: 'pessoa/all',
+		title: 'menu.pessoa.title',
 		fields: [
 			{
-				label: "page.user.fields.id",
+				label: "page.pessoa.fields.id",
 				field: "id",
 				width: "5%"
 			},
 			{
-				label: 'page.user.fields.email',
-				field: "email",
+				label: 'page.pessoa.fields.nome',
+				field: "nome",
 				width: "95%"	
 			}
 		]
@@ -31,12 +31,12 @@ class UsersList extends BasePageList
 
 	render() 
 	{
-		let input_fields = [{label: 'page.user.fields.email', field: "email"}];
+		let input_fields = [];
 		let filter = <Filter fields={input_fields} onChange={this.handleChange} onSubmit={this.handleOnSubmitFilter}/>;
 		return (
-			<TableData onClickPage={ this.handleClickPage } title='page.user.list.title' 
+			<TableData onClickPage={ this.handleClickPage } title='page.pessoa.list.title' 
 				fields={ this.props.fields } data={ this.state.itens } pagination={ this.state.pagination }
-				actions={ this.state.actions } addUrl='/usuario/add' onEdit={ this.handleOnEditAction }
+				actions={ this.state.actions } addUrl='/pessoa/add' onEdit={ this.handleOnEditAction }
 				onDelete={ this.handleOnDeleteAction } onView={ this.handleOnViewAction } filter={filter}/>
 		);
 	}
@@ -45,30 +45,22 @@ class UsersList extends BasePageList
 
 /*----------------------------------------------------------------------------------------------------*/
 
-class UsersAdd extends BasePageForm 
+class PessoaAdd extends BasePageForm 
 {
 	static defaultProps = {
-		urlBase: 'usuario/add',
-		title: Messages.getMessage('menu.user.title')
+		urlBase: 'pessoa/add',
+		title: Messages.getMessage('menu.pessoa.title')
 	};
 
 	render() 
 	{	
 		return (
-			<FormPage title="page.user.add.title">
+			<FormPage title="page.pessoa.add.title">
 				<FormRow>
-					<InputInGroup type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.user.fields.email' required="required" colsize="6" />
+					<InputInGroup  name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.nome' required="required" colsize="6" />
 				</FormRow>
-				<FormRow>
-					<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-						label='page.user.fields.password' required="required" colsize="6" />
-				</FormRow>
-
-				<FormRow>
-					<SelectField empty={ true } value_name="id" name='cargo_id' errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" />
-				</FormRow>
+			
 
 				<FormRow>
 					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmit } />
@@ -81,11 +73,11 @@ class UsersAdd extends BasePageForm
 
 /*----------------------------------------------------------------------------------------------------*/
 
-class UsersEdit extends BasePageForm 
+class PessoaEdit extends BasePageForm 
 {	
 	static defaultProps = {
-		urlBase: 'usuario/edit',
-		title: Messages.getMessage('menu.user.title')
+		urlBase: 'pessoa/edit',
+		title: Messages.getMessage('menu.pessoa.title')
 	};
 
 	componentDidMount() {
@@ -94,7 +86,7 @@ class UsersEdit extends BasePageForm
 			return;
 		}
 		let id = this.props.location.state.item_id;
-		Rest.get( "usuario/view/" + id, this.state).then(this.handleResponse);
+		Rest.get( "pessoa/view/" + id, this.state).then(this.handleResponse);
 	}
 
 
@@ -103,16 +95,12 @@ class UsersEdit extends BasePageForm
 		return (
 			this.state.error ?
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
-				<FormPage title="page.user.add.title">
+				<FormPage title="page.pessoa.add.title">
 				<FormRow>
-					<InputInGroup type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-						label='page.user.fields.email' required="required" colsize="6" value={this.state.email}/>
+					<InputInGroup name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+						label='page.pessoa.fields.nome' required="required" colsize="6" value={this.state.nome}/>
 				</FormRow>
-				<FormRow>
-					<SelectField empty={ true } name="cargo_id" value_name="id" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" value={this.state.cargo_id} />
-				</FormRow>
-
+			
 				<FormRow>
 					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmitEdit } />
 					<ButtonCancel text="layout.form.cancel" onClick={ this.handleCancel } />
@@ -124,11 +112,11 @@ class UsersEdit extends BasePageForm
 
 /*----------------------------------------------------------------------------------------------------*/
 
-class UsersView extends BasePageForm
+class PessoaView extends BasePageForm
 {
 	static defaultProps = {
-		urlBase: 'usuario/view',
-		title: Messages.getMessage('menu.user.title')
+		urlBase: 'pessoa/view',
+		title: Messages.getMessage('menu.pessoa.title')
 	};
 
 	componentDidMount() {
@@ -137,22 +125,21 @@ class UsersView extends BasePageForm
 			return;
 		}
 		let id = this.props.location.state.item_id;
-		Rest.get( "usuario/view/" + id, this.state).then(this.handleResponse);
+		Rest.get( "pessoa/view/" + id, this.state).then(this.handleResponse);
 	}
 
 	render()
 	{
 		let fields = [
-			{label:"Email: ", value:this.state.email},
-			{label:"Cargo: ", value:this.state.cargo_id}
+			{label:"Pessoa: ", value:this.state.nome}			
 		];
 		return (
 			this.state.error ?
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
-				(<BasicView title={"User " + this.state.email} url={"#usuario/edit?id=" + this.state.id} fields={fields} onClickEdit={this.onClickEdit}/>)
+				(<BasicView title={"Pessoa " + this.state.nome} url={"#pessoa/edit?id=" + this.state.id} fields={fields} onClickEdit={this.onClickEdit}/>)
 		);
 	}
 }
 
 
-export { UsersList, UsersAdd , UsersEdit,  UsersView} ;
+export { PessoaList, PessoaAdd , PessoaEdit,  PessoaView} ;
