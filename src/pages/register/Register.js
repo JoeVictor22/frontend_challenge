@@ -3,7 +3,7 @@ import AuthService from '../../services/AuthService';
 import MessageService from '../../services/MessageService';
 import { AlertifyError, AlertifySuccess } from '../../services/AlertifyService';
 import { CenterCard, FormPage, FormRow } from '../../components/template/Layout';
-import { InputInGroup, RememberMeInGroup, ButtonSubmit, SelectField, InputCpf, InputCep, ButtonCancel } from '../../components/template/Form';
+import { InputInGroup, RememberMeInGroup, ButtonSubmit, SelectField, InputCpf, InputCep, ButtonCancel, InputPis } from '../../components/template/Form';
 import { Select2Field } from '../../components/template/FormUnsecure';
 
 import RestServiceUnsecure from '../../services/RestServiceUnsecure';
@@ -102,7 +102,7 @@ class Register extends Component
                 <FormRow>
                     <InputCpf  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.cpf' required="required" colsize="6" />
-					<InputInGroup  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+					<InputPis  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.pis' required="required" colsize="6" />
 
                 </FormRow>

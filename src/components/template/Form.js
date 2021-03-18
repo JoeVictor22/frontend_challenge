@@ -409,7 +409,78 @@ class InputCpf extends Component {
 	}
   }
   
+/*----------------------------------------------------------------------------------------------------*/
 
+/** Deve ser enviado o value ao componente para evitar erro de mudanca de controle */
+class InputPis extends Component {
+	constructor(props) {
+	  super(props);
+	  this.handleMaskChange = this.handleMaskChange.bind(this);
+	}
+  
+	handleMaskChange(e) {
+	  var valor = e.target.value;
+	  //207.26075.20-1
+	  if (valor.length < 15) {
+		valor = valor
+		  .replace(/\D/g, "")                                      
+		  .replace(/^(\d{3})(\d)/, "$1.$2")                        
+		  .replace(/^(\d{3})\.(\d{5})(\d)/, "$1.$2.$3")            
+		  .replace(/(\d{3})\.(\d{5})\.(\d{2})(\d)/, "$1.$2.$3-$4")
+
+		e.target.value = valor;
+		this.props.onChange(e);
+	  } else if (valor === "") {
+		this.props.onChange(e);
+	  }
+	}
+	render() {
+	  let classValue;
+  
+	  if (this.props.errors[this.props.name]) {
+		classValue = "is-invalid form-control";
+	  } else if (!this.props.class) {
+		classValue = "form-control";
+	  } else {
+		classValue = "form-control " + this.props.class;
+	  }
+  
+	  return (
+		<div
+		  className={
+			"form-group " +
+			(this.props.colsize ? "col-md-" + this.props.colsize : "")
+		  }
+		>
+		  <label>
+			{Messages.getMessage(this.props.label)}
+			{this.props.required ? "*" : ""}
+		  </label>
+  
+		  <input
+			type={this.props.type}
+			className={classValue}
+			id={this.props.name}
+			name={this.props.name}
+			required={this.props.required}
+			disabled={this.props.disabled}
+			value={this.props.value || ""}
+			autoFocus={this.props.autofocus}
+			onChange={this.handleMaskChange}
+			maxLength={this.props.maxLength}
+			checked={this.props.checked}
+			placeholder={this.props.placeholder || "000.00000.00-0"}
+		  />
+		  <div className="invalid-feedback">
+			{this.props.errors[this.props.name]
+			  ? this.props.errors[this.props.name]
+			  : ""}
+		  </div>
+		</div>
+	  );
+	}
+  }
+  
 /*----------------------------------------------------------------------------------------------------*/
 /** Deve ser enviado o value ao componente para evitar erro de mudanca de controle */
 class InputCep extends Component {
@@ -479,4 +550,4 @@ class InputCep extends Component {
   
 /*----------------------------------------------------------------------------------------------------*/
 
-export { InputInGroup, RememberMeInGroup, ButtonSubmit, ButtonCancel, SelectField, Select2Field, InputCpf, InputCep};
+export { InputInGroup, RememberMeInGroup, ButtonSubmit, ButtonCancel, SelectField, Select2Field, InputCpf, InputPis, InputCep};

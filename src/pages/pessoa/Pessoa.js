@@ -3,7 +3,7 @@ import BasePageList from '../basePage/BasePageList';
 import BasePageForm from '../basePage/BasePageForm';
 import MessageService from '../../services/MessageService';
 import {TableData, FormPage, FormRow, BasicView, Filter} from '../../components/template/Layout';
-import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField, InputCep, InputCpf, Select2Field } from '../../components/template/Form';
+import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField, InputCep, InputCpf, Select2Field, InputPis } from '../../components/template/Form';
 import {Redirect} from "react-router-dom";
 import RestService from "../../services/RestService";
 const Rest = new RestService();
@@ -71,7 +71,7 @@ class PessoaAdd extends BasePageForm
 						label='page.pessoa.fields.nome' required="required" colsize="4" />
 					<InputCpf  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.cpf' required="required" colsize="4" />
-					<InputInGroup  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+					<InputPis value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.pis' required="required" colsize="4" />
 				</FormRow>
 			
@@ -126,7 +126,7 @@ class PessoaEdit extends BasePageForm
 						label='page.pessoa.fields.nome' required="required" colsize="4" />
 					<InputCpf  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.cpf' required="required" colsize="4" />
-					<InputInGroup  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+					<InputPis  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.pis' required="required" colsize="4" />
 				</FormRow>
 			
