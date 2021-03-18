@@ -18,6 +18,9 @@ class BasePageForm extends BasePage
 		this.handleOnSubmit = this.handleOnSubmit.bind(this);
 		this.handleReceiveResponseRest = this.handleReceiveResponseRest.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
+		this.handleOnSubmitEdit = this.handleOnSubmitEdit.bind(this);
+		this.handleResponse = this.handleResponse.bind(this);
+		this.onClickEdit = this.onClickEdit.bind(this);
 	}
 
 	handleChange(e)
@@ -48,7 +51,9 @@ class BasePageForm extends BasePage
 				});
 
 			} 
-			AlertifyError(res.data.form);
+			if (res.data.form){
+				AlertifyError(res.data.form);
+			}
 
     	} else {
             AlertifySuccess([{message: res.data.message}]);
@@ -57,12 +62,33 @@ class BasePageForm extends BasePage
     }
 
     async handleOnSubmit(e) {
+		console.log("submit", this.state)
     	Rest.post(this.props.urlBase, this.state).then(this.handleReceiveResponseRest);
     }
-
+	async handleOnSubmitEdit(e) {
+		console.log("submit edit", this.state)
+		Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(
+			this.handleReceiveResponseRest
+		);
+	}
+	handleResponse(data) {
+		this.setState((
+			data.data
+		));
+	}
+	
     handleCancel(e) {
         this.props.history.push("/" + this.props.urlBase.split('/')[0] + '/list');
     }
+	onClickEdit(event) {
+		console.log(event.target);
+		let url = "edit";
+		let id = this.state.id;
+		this.props.history.push({
+			pathname: url,
+			state: {item_id: id}
+		});
+	}
 }
 
 export default BasePageForm;

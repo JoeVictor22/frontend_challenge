@@ -61,7 +61,7 @@ class UsersAdd extends BasePageForm
 						label='page.user.fields.email' required="required" colsize="6" />
 				</FormRow>
 				<FormRow>
-					<InputInGroup type="password" name="password" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+					<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
 						label='page.user.fields.password' required="required" colsize="6" />
 				</FormRow>
 
@@ -82,12 +82,7 @@ class UsersAdd extends BasePageForm
 /*----------------------------------------------------------------------------------------------------*/
 
 class UsersEdit extends BasePageForm 
-{
-	constructor(props) {
-		super(props);
-
-		this.handleResponse = this.handleResponse.bind(this);
-	}
+{	
 	static defaultProps = {
 		urlBase: 'usuario/edit',
 		title: Messages.getMessage('menu.user.title')
@@ -99,14 +94,11 @@ class UsersEdit extends BasePageForm
 			return;
 		}
 		let id = this.props.location.state.item_id;
-		Rest.view( "usuario/view/" + id, this.state).then(this.handleResponse);
+		Rest.get( "usuario/view/" + id, this.state).then(this.handleResponse);
 	}
 
-	handleResponse(data) {
-		this.setState((
-			data.data
-		));
-	}
+	
+
 	render() 
 	{	
 		return (
@@ -118,12 +110,12 @@ class UsersEdit extends BasePageForm
 						label='page.user.fields.email' required="required" colsize="6" value={this.state.email}/>
 				</FormRow>
 				<FormRow>
-					<SelectField empty={ true } name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+					<SelectField empty={ true } name="cargo_id" value_name="id" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" value={this.state.cargo_id} />
 				</FormRow>
 
 				<FormRow>
-					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmit } />
+					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmitEdit } />
 					<ButtonCancel text="layout.form.cancel" onClick={ this.handleCancel } />
 				</FormRow>
 			</FormPage>
@@ -135,22 +127,6 @@ class UsersEdit extends BasePageForm
 
 class UsersView extends BasePageForm
 {
-
-	constructor(props) {
-		super(props);
-
-		this.handleResponse = this.handleResponse.bind(this);
-		this.onClickEdit = this.onClickEdit.bind(this);
-	}
-	onClickEdit(event) {
-		console.log(event.target);
-		let url = "edit";
-		let id = this.state.id;
-		this.props.history.push({
-			pathname: url,
-			state: {item_id: id}
-		});
-	}
 	static defaultProps = {
 		urlBase: 'usuario/view',
 		title: Messages.getMessage('menu.user.title')
@@ -162,14 +138,9 @@ class UsersView extends BasePageForm
 			return;
 		}
 		let id = this.props.location.state.item_id;
-		Rest.view( "usuario/view/" + id, this.state).then(this.handleResponse);
+		Rest.get( "usuario/view/" + id, this.state).then(this.handleResponse);
 	}
 
-	handleResponse(data) {
-		this.setState((
-			data.data
-		));
-	}
 	render()
 	{
 		let fields = [
@@ -179,7 +150,7 @@ class UsersView extends BasePageForm
 		return (
 			this.state.error ?
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
-				(<BasicView title={"Users " + this.state.username} url={"#user/edit?id=" + this.state.id} fields={fields} onClickEdit={this.onClickEdit}/>)
+				(<BasicView title={"Users " + this.state.username} url={"#usuario/edit?id=" + this.state.id} fields={fields} onClickEdit={this.onClickEdit}/>)
 		);
 	}
 }

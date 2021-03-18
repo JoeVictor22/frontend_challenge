@@ -40,10 +40,10 @@ function Routes()
 							<PrivateRoute exact path="/" component={ (privateRouteProps) => (<Home {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/about" component={ (privateRouteProps) => (<About {...privateRouteProps} {...props} />) } />
 
-							<PrivateRoute path="/user/list" component={ (privateRouteProps) => (<UsersList {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/user/add" component={ (privateRouteProps) => (<UsersAdd {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/user/edit" component={ (privateRouteProps) => (<UsersEdit {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/user/view" component={ (privateRouteProps) => (<UsersView {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/list" component={ (privateRouteProps) => (<UsersList {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/add" component={ (privateRouteProps) => (<UsersAdd {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/edit" component={ (privateRouteProps) => (<UsersEdit {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/view" component={ (privateRouteProps) => (<UsersView {...privateRouteProps} {...props} />) } />
 
 						
 							<Route path="/login" component={ Login } />

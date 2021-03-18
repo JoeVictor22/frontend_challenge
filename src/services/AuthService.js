@@ -79,7 +79,8 @@ class AuthService {
 
       if (this.isTokenExpired(token)) {
         let self = this;
-        return axios({
+
+        return this.axiosHandler({
           url: `${this.domain}/refresh`,
           method: "POST",
           headers: {
@@ -156,10 +157,10 @@ class AuthService {
       let res = {
         'error': true,
         'data': {
-		'error': true,
-		...error?.response?.data
-        }
-      }
+          'error': true,
+          ...error?.response?.data
+              }
+         }
       return res;
     });
   }
