@@ -111,7 +111,14 @@ export const Messages = {
 		"pessoa": {
 			"fields": {
 				"id": "#",
-				"nome": "Nome"
+				"nome": "Nome",
+				"cpf": "CPF",
+				"pis": "PIS",
+				"cep": "CEP",
+				"rua": "Rua",
+				"numero": "Número",
+				"complemento": "Complemento",
+				
 			},
 			"list": {
 				"title": "Listar cadastros de dados"

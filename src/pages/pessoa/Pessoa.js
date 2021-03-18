@@ -24,7 +24,17 @@ class PessoaList extends BasePageList
 			{
 				label: 'page.pessoa.fields.nome',
 				field: "nome",
-				width: "95%"	
+				width: "41%"	
+			},
+			{
+				label: 'page.pessoa.fields.cpf',
+				field: "cpf",
+				width: "22%"	
+			},
+			{
+				label: 'page.pessoa.fields.pis',
+				field: "pis",
+				width: "22%"	
 			}
 		]
 	};
@@ -58,10 +68,23 @@ class PessoaAdd extends BasePageForm
 			<FormPage title="page.pessoa.add.title">
 				<FormRow>
 					<InputInGroup  name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.nome' required="required" colsize="6" />
+						label='page.pessoa.fields.nome' required="required" colsize="4" />
+					<InputInGroup  name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.cpf' required="required" colsize="4" />
+					<InputInGroup  name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.pis' required="required" colsize="4" />
 				</FormRow>
 			
-
+				<FormRow>
+					<InputInGroup  name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.cep' required="required" colsize="3" />
+					<InputInGroup  name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.rua' required="required" colsize="3" />
+					<InputInGroup  name="numero" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.numero' required="required" colsize="3" />
+                    <InputInGroup  name="complemento" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.complemento' colsize="3" />
+				</FormRow>
 				<FormRow>
 					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmit } />
 					<ButtonCancel text="layout.form.cancel" onClick={ this.handleCancel } />
@@ -96,11 +119,25 @@ class PessoaEdit extends BasePageForm
 			this.state.error ?
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
 				<FormPage title="page.pessoa.add.title">
-				<FormRow>
-					<InputInGroup name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-						label='page.pessoa.fields.nome' required="required" colsize="6" value={this.state.nome}/>
+			    <FormRow>
+					<InputInGroup  value={this.state.nome} name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.nome' required="required" colsize="4" />
+					<InputInGroup  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.cpf' required="required" colsize="4" />
+					<InputInGroup  value={this.state.pis} name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.pis' required="required" colsize="4" />
 				</FormRow>
 			
+				<FormRow>
+					<InputInGroup  value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.cep' required="required" colsize="3" />
+					<InputInGroup  value={this.state.rua} name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.rua' required="required" colsize="3" />
+					<InputInGroup  value={this.state.numero} name="numero" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.numero' required="required" colsize="3" />
+                    <InputInGroup  value={this.state.complemento} name="complemento" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.complemento' colsize="3" />
+				</FormRow>
 				<FormRow>
 					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmitEdit } />
 					<ButtonCancel text="layout.form.cancel" onClick={ this.handleCancel } />
@@ -131,7 +168,15 @@ class PessoaView extends BasePageForm
 	render()
 	{
 		let fields = [
-			{label:"Pessoa: ", value:this.state.nome}			
+			{label:"Nome: ", value:this.state.nome},			
+            {label:"CPF: ", value:this.state.cpf},			
+            {label:"PIS: ", value:this.state.pis},			
+            {label:"CEP: ", value:this.state.cep},			
+			{label:"Rua: ", value:this.state.rua},			
+            {label:"Número: ", value:this.state.numero},
+            {label:"Complemento: ", value:this.state.complemento},			
+
+
 		];
 		return (
 			this.state.error ?
