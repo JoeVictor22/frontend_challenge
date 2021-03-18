@@ -26,7 +26,10 @@ export const Messages = {
 			"cancel": "Cancelar",
             "calcular": "Calcular",
 			"download": "Download"
-		}
+		},
+		"select-field": {
+			"placeholder": "Digite os dados para buscar",
+		},
 	},
 	"menu":{
 		"dashboard": "Dashboard",
@@ -118,6 +121,7 @@ export const Messages = {
 				"rua": "Rua",
 				"numero": "Número",
 				"complemento": "Complemento",
+				"cidade_id": "Cidade"
 				
 			},
 			"list": {

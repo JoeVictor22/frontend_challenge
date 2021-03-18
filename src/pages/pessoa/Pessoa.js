@@ -3,7 +3,7 @@ import BasePageList from '../basePage/BasePageList';
 import BasePageForm from '../basePage/BasePageForm';
 import MessageService from '../../services/MessageService';
 import {TableData, FormPage, FormRow, BasicView, Filter} from '../../components/template/Layout';
-import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField } from '../../components/template/Form';
+import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField, InputCep, InputCpf, Select2Field } from '../../components/template/Form';
 import {Redirect} from "react-router-dom";
 import RestService from "../../services/RestService";
 const Rest = new RestService();
@@ -69,21 +69,23 @@ class PessoaAdd extends BasePageForm
 				<FormRow>
 					<InputInGroup  name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.nome' required="required" colsize="4" />
-					<InputInGroup  name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+					<InputCpf  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.cpf' required="required" colsize="4" />
-					<InputInGroup  name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+					<InputInGroup  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.pis' required="required" colsize="4" />
 				</FormRow>
 			
 				<FormRow>
-					<InputInGroup  name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.cep' required="required" colsize="3" />
+					<InputCep value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.cep' required="required" colsize="2" />
 					<InputInGroup  name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.rua' required="required" colsize="3" />
 					<InputInGroup  name="numero" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.numero' required="required" colsize="3" />
+						label='page.pessoa.fields.numero' required="required" colsize="1" />
                     <InputInGroup  name="complemento" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.complemento' colsize="3" />
+						label='page.pessoa.fields.complemento' colsize="2" />
+                    <Select2Field name="cidade_id" colsize="4" onChange={this.handleChange} url_view="cidade/view" url_list="cidade/all" filterName="nome" 
+                        displayName={["nome"]} label="page.pessoa.fields.cidade_id" required={true} errors={this.state.fieldErrors} />
 				</FormRow>
 				<FormRow>
 					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmit } />
@@ -122,21 +124,23 @@ class PessoaEdit extends BasePageForm
 			    <FormRow>
 					<InputInGroup  value={this.state.nome} name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.nome' required="required" colsize="4" />
-					<InputInGroup  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+					<InputCpf  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.cpf' required="required" colsize="4" />
-					<InputInGroup  value={this.state.pis} name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+					<InputInGroup  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.pis' required="required" colsize="4" />
 				</FormRow>
 			
 				<FormRow>
-					<InputInGroup  value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.cep' required="required" colsize="3" />
+					<InputCep  value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.pessoa.fields.cep' required="required" colsize="2" />
 					<InputInGroup  value={this.state.rua} name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.rua' required="required" colsize="3" />
 					<InputInGroup  value={this.state.numero} name="numero" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.numero' required="required" colsize="3" />
+						label='page.pessoa.fields.numero' required="required" colsize="1" />
                     <InputInGroup  value={this.state.complemento} name="complemento" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.complemento' colsize="3" />
+						label='page.pessoa.fields.complemento' colsize="2" />
+                    <Select2Field value={this.state.cidade_id} name="cidade_id" colsize="4" onChange={this.handleChange} url_view="cidade/view" url_list="cidade/all" filterName="nome" 
+                        displayName={["nome"]} label="page.pessoa.fields.cidade_id" required={true} errors={this.state.fieldErrors} />
 				</FormRow>
 				<FormRow>
 					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmitEdit } />

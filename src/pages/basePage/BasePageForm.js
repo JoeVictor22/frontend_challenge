@@ -55,6 +55,10 @@ class BasePageForm extends BasePage
 			if (res.data.form){
 				AlertifyError(res.data.form);
 			}
+			if (res.data.message){
+				console.log("vai");
+				AlertifyError([{"message": res.data.message}]);
+			}
 
     	} else {
             AlertifySuccess([{message: res.data.message}]);

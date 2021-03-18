@@ -1,37 +1,60 @@
 import React, { Component } from 'react';
 import MessageService from '../../services/MessageService';
 import RestService from '../../services/RestService';
+import Select from "react-select";
+import "./form.css"
 const Messages = new MessageService();
 const Rest = new RestService();
 
 /*----------------------------------------------------------------------------------------------------*/
 
-class InputInGroup extends Component 
-{		
-	render() 
-	{
-		let classValue;
-		
-		if (this.props.errors[this.props.name]) {
-			classValue = "is-invalid form-control";
-		} 
-		else {
-			classValue = "form-control";
-		}
-		
-		return (
-			<div className= {"form-group col " + (this.props.colsize ? "col-md-" + this.props.colsize : "")  }>
-				<label>{ Messages.getMessage(this.props.label) }</label>
-				<input type={ this.props.type } className={ classValue } id={ this.props.name }  name={ this.props.name }
-					required={ this.props.required } disabled={this.props.disabled} value={this.props.value} autoFocus={ this.props.autofocus } onChange={ this.props.onChange } />
-				<div className="invalid-feedback">
-					{ this.props.errors[this.props.name] ? this.props.errors[this.props.name] : '' }
-				</div>
-            </div>
-		);
+class InputInGroup extends Component {
+	render() {
+	  let classValue;
+  
+	  if (this.props.errors[this.props.name]) {
+		classValue = "is-invalid form-control";
+	  } else if (!this.props.class) {
+		classValue = "form-control";
+	  } else {
+		classValue = "form-control " + this.props.class;
+	  }
+  
+	  return (
+		<div
+		  className={
+			"form-group " +
+			(this.props.colsize ? "col-md-" + this.props.colsize : "")
+		  }
+		>
+		  <label>
+			{Messages.getMessage(this.props.label)}
+			{this.props.required ? "*" : ""}
+		  </label>
+		  <input
+			type={this.props.type}
+			className={classValue}
+			id={this.props.name}
+			name={this.props.name}
+			required={this.props.required}
+			disabled={this.props.disabled}
+			value={this.props.value}
+			autoFocus={this.props.autofocus}
+			onChange={this.props.onChange}
+			maxLength={this.props.maxLength}
+			checked={this.props.checked}
+			onBlur={this.props.onChange}
+		  />
+		  <div className="invalid-feedback">
+			{this.props.errors[this.props.name]
+			  ? this.props.errors[this.props.name]
+			  : ""}
+		  </div>
+		</div>
+	  );
 	}
-}
-
+  }
+  
 /*----------------------------------------------------------------------------------------------------*/
 
 class RememberMeInGroup extends Component 
@@ -162,61 +185,298 @@ class SelectField extends Component
 }
 
 /*----------------------------------------------------------------------------------------------------*/
-class SelectRegion extends Component
-{
-	constructor(props)
-	{
-		super(props);
-
-		this.state = {
-			options: []
-		};
-
-		this.handleReceiveOption = this.handleReceiveOption.bind(this);
-		this._isMounted = false;
+class Select2Field extends Component {
+	constructor(props) {
+	  super(props);
+  
+	  this.state = {
+		options: [],
+		isLoading: false,
+		selectedValue: null,
+	  };
+  
+	  this.handleChange = this.handleChange.bind(this);
+	  this.handleOnInputChange = this.handleOnInputChange.bind(this);
+	  this.handleReceiveOptions = this.handleReceiveOptions.bind(this);
+	  this.handleReceiveInitSelection = this.handleReceiveInitSelection.bind(
+		this
+	  );
 	}
-
-	async handleReceiveOption(res)
-	{
-		this._isMounted && this.setState({
-			options: res.data
-		});
-	}
-
-	componentDidMount()
-	{
-		this._isMounted = true;
-		this._isMounted && Rest.get(this.props.url, this.props.urlParameters).then(this.handleReceiveOption);
-	}
-
-	componentWillUnmount() {
-		this._isMounted = false;
-	}
-
-	render()
-	{
-		return (
-			<div className= { "form-group col " + (this.props.colsize ? "col-md-" + this.props.colsize : "") }>
-				<label>{ Messages.getMessage(this.props.label) }</label>
-				<select className="form-control" id={ this.props.name }  name={ this.props.name }
-						required={ this.props.required } value={this.props.value} autoFocus={ this.props.autofocus } onChange={ this.props.onChange }>
-					<option value=""/>
-					<option value="NE">Centro Oeste - CO</option>
-					<option value="NE">Nordeste - NE</option>
-					<option value="NE">Norte - N</option>
-					<option value="NE">Sudeste - SE</option>
-					<option value="NE">Sul - S</option>
-				</select>
-
-				<div className="invalid-feedback">
-					{ this.props.errors[this.props.name] ? this.props.errors[this.props.name] : '' }
-				</div>
-			</div>
+  
+	static defaultProps = {
+	  minLengthInput: 3,
+	  value: null,
+	  required: false,
+	  placeholder: "layout.select-field.placeholder",
+	};
+  
+	componentDidUpdate(prevProps, prevState, snapshot) {
+	  if (prevProps.value !== this.props.value) {
+		Rest.get(`${this.props.url_view}/${this.props.value}`, {}).then(
+		  this.handleReceiveInitSelection
 		);
+	  }
 	}
-}
-
+  
+	componentDidMount() {
+	  if (this.props.value) {
+		Rest.get(`${this.props.url_view}/${this.props.value}`, {}).then(
+		  this.handleReceiveInitSelection
+		);
+	  } else {
+		Rest.get(this.props.url_list, this.props.urlParameters).then(
+		  this.handleReceiveOptions
+		);
+	  }
+	}
+  
+	handleChange(e) {
+	  this.setState({
+		selectedValue: e,
+	  });
+	  console.log(e);
+	  console.log(this.state.options);
+	  const event = {
+		target: {
+		  name: this.props.name,
+		  value: e !== null ? e.value : null,
+		  label: e !== null ? e.label : null,
+		},
+	  };
+  
+	  this.props.onChange(event);
+	}
+  
+	handleOnInputChange(e) {
+	  if (
+		e.length >= this.props.minLengthInput ||
+		(e.length === 0 && this.state.selectedValue === null)
+	  ) {
+		this.setState({
+		  isLoading: true,
+		  selectedValue: null,
+		  value: null,
+		});
+  
+		Rest.get(this.props.url_list, {
+		  ...this.props.urlParameters,
+		  [this.props.filterName]: e,
+		}).then(this.handleReceiveOptions);
+	  }
+	}
+  
+	handleReceiveOptions(res) {
+	  this.setState({
+		isLoading: false,
+	  });
+  
+	  if (!res.data.error) {
+		let self = this;
+		let options = res.data.itens.map((item) => {
+		  let label = self.props.displayName
+			.map((fld) => {
+			  const reducer = (acc, cur) => acc[cur];
+			  return fld.split(".").reduce(reducer, item);
+			})
+			.join(" - ");
+  
+		  return { label: label, value: item.id };
+		});
+  
+		this.setState({
+		  options: options,
+		});
+	  }
+	}
+  
+	handleReceiveInitSelection(res) {
+	  if (!res.data.error) {
+		let label = this.props.displayName
+		  .map((fld) => {
+			const reducer = (acc, cur) => acc[cur];
+			return fld.split(".").reduce(reducer, res.data);
+		  })
+		  .join(" - ");
+  
+		this.setState({
+		  selectedValue: { value: res.data.id, label: label },
+		});
+	  }
+	}
+  
+	render() {
+	  return (
+		<div
+		  className={
+			"form-group " +
+			(this.props.colsize ? "col-md-" + this.props.colsize : "")
+		  }
+		>
+		  <label>
+			{Messages.getMessage(this.props.label)}
+			{this.props.required ? "*" : ""}
+		  </label>
+		  <Select
+			autoFocus={this.props.autofocus}
+			options={this.state.options}
+			onChange={this.handleChange}
+			isLoading={this.state.isLoading}
+			onInputChange={this.handleOnInputChange}
+			isClearable={!this.props.required}
+			value={this.state.selectedValue}
+			placeholder={Messages.getMessage(this.props.placeholder)}
+		  />
+		  <div className="invalid-message">
+			{this.props.errors[this.props.name]
+			  ? this.props.errors[this.props.name]
+			  : ""}
+		  </div>
+		</div>
+	  );
+	}
+  }
+  
 /*----------------------------------------------------------------------------------------------------*/
 
+/** Deve ser enviado o value ao componente para evitar erro de mudanca de controle */
+class InputCpf extends Component {
+	constructor(props) {
+	  super(props);
+	  this.handleMaskChange = this.handleMaskChange.bind(this);
+	}
+  
+	handleMaskChange(e) {
+	  var valor = e.target.value;
+	  //001.716.503-02
+	  if (valor.length < 15) {
+		valor = valor
+		  .replace(/\D/g, "")
+		  .replace(/(\d{3})(\d)/, "$1.$2")
+		  .replace(/(\d{3})(\d)/, "$1.$2")
+		  .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+		  .replace(/(-\d{2})\d+?$/, "$1");
+  
+		e.target.value = valor;
+		this.props.onChange(e);
+	  } else if (valor === "") {
+		this.props.onChange(e);
+	  }
+	}
+	render() {
+	  let classValue;
+  
+	  if (this.props.errors[this.props.name]) {
+		classValue = "is-invalid form-control";
+	  } else if (!this.props.class) {
+		classValue = "form-control";
+	  } else {
+		classValue = "form-control " + this.props.class;
+	  }
+  
+	  return (
+		<div
+		  className={
+			"form-group " +
+			(this.props.colsize ? "col-md-" + this.props.colsize : "")
+		  }
+		>
+		  <label>
+			{Messages.getMessage(this.props.label)}
+			{this.props.required ? "*" : ""}
+		  </label>
+  
+		  <input
+			type={this.props.type}
+			className={classValue}
+			id={this.props.name}
+			name={this.props.name}
+			required={this.props.required}
+			disabled={this.props.disabled}
+			value={this.props.value || ""}
+			autoFocus={this.props.autofocus}
+			onChange={this.handleMaskChange}
+			maxLength={this.props.maxLength}
+			checked={this.props.checked}
+			placeholder={this.props.placeholder || "000.000.000-00"}
+		  />
+		  <div className="invalid-feedback">
+			{this.props.errors[this.props.name]
+			  ? this.props.errors[this.props.name]
+			  : ""}
+		  </div>
+		</div>
+	  );
+	}
+  }
+  
 
-export { InputInGroup, RememberMeInGroup, ButtonSubmit, ButtonCancel, SelectField, SelectRegion};
+/*----------------------------------------------------------------------------------------------------*/
+/** Deve ser enviado o value ao componente para evitar erro de mudanca de controle */
+class InputCep extends Component {
+	constructor(props) {
+	  super(props);
+	  this.handleMaskChange = this.handleMaskChange.bind(this);
+	}
+  
+	handleMaskChange(e) {
+	  var valor = e.target.value;
+	  //60730-235
+	  if (valor.length < 10) {
+		valor = valor.replace(/\D/g, "").replace(/(\d{5})(\d)/, "$1-$2");
+  
+		e.target.value = valor;
+		this.props.onChange(e);
+	  } else if (valor === "") {
+		this.props.onChange(e);
+	  }
+	}
+	render() {
+	  let classValue;
+  
+	  if (this.props.errors[this.props.name]) {
+		classValue = "is-invalid form-control";
+	  } else if (!this.props.class) {
+		classValue = "form-control";
+	  } else {
+		classValue = "form-control " + this.props.class;
+	  }
+  
+	  return (
+		<div
+		  className={
+			"form-group " +
+			(this.props.colsize ? "col-md-" + this.props.colsize : "")
+		  }
+		>
+		  <label>
+			{Messages.getMessage(this.props.label)}
+			{this.props.required ? "*" : ""}
+		  </label>
+  
+		  <input
+			type={this.props.type}
+			className={classValue}
+			id={this.props.name}
+			name={this.props.name}
+			required={this.props.required}
+			disabled={this.props.disabled}
+			value={this.props.value || ""}
+			autoFocus={this.props.autofocus}
+			onChange={this.handleMaskChange}
+			maxLength={this.props.maxLength}
+			checked={this.props.checked}
+			placeholder={this.props.placeholder || "00000-000"}
+		  />
+		  <div className="invalid-feedback">
+			{this.props.errors[this.props.name]
+			  ? this.props.errors[this.props.name]
+			  : ""}
+		  </div>
+		</div>
+	  );
+	}
+  }
+  
+/*----------------------------------------------------------------------------------------------------*/
+
+export { InputInGroup, RememberMeInGroup, ButtonSubmit, ButtonCancel, SelectField, Select2Field, InputCpf, InputCep};
