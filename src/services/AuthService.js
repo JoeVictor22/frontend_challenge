@@ -15,7 +15,7 @@ class AuthService {
   /*----------------------------------------------------------------------------------------------------*/
 
   login(username, password) {
-    let url_atual = window.location.href;
+
     return this.fetch(`${this.domain}/auth`, {
           method: "post",
           email: username,
@@ -23,17 +23,16 @@ class AuthService {
 
     }).then((res) => {
 
-	console.log("res login", res)
-	if (!res.data.error) {
-		this.setToken(res.data.access_token);
-		this.setRefreshToken(res.data.refresh_token);
-    localStorage.setItem("user_profile_role", res.data.cargo_id);
-
-    //this.setUser({ role: res.data.cargo_id });
-		
-		//used if is needed to get more data about the user, TODO: fix function
-    //this.updateProfile(res.data.access_token, url_atual);
-	}
+      console.log("res login", res)
+      if (!res.data.error) {
+        
+        this.setToken(res.data.access_token);
+        this.setRefreshToken(res.data.refresh_token);
+        localStorage.setItem("user_profile_role", res.data.cargo_id);
+        localStorage.setItem("user_profile_email", res.data.email);
+        localStorage.setItem("user_profile_name", res.data.perfil?.nome || "Perfil não cadastrado");
+      
+      }
       return Promise.resolve(res);
     });
   }
@@ -153,7 +152,7 @@ class AuthService {
     .catch((error) => {
 	// in case of error, this is the data persisted to the client
 
-	console.log("error axiosHandler", error.response);
+	  console.log("error axiosHandler", error, error.response);
       let res = {
         'error': true,
         'data': {
@@ -210,28 +209,10 @@ class AuthService {
     localStorage.removeItem("id_refresh_token");
     localStorage.removeItem("user_profile_role");
     localStorage.removeItem("user_profile_email");
-    localStorage.removeItem("user_profile_username");
-    localStorage.removeItem("user_profile_rolename");
+    localStorage.removeItem("user_profile_name");
 
     window.location.reload();
   }
-
-  /*----------------------------------------------------------------------------------------------------*/
-
-  updateProfile(token, url) {
-	const request = {
-		url:`${this.domain}/me`,
-		method:"GET",
-		headers: { Authorization: "Bearer " + token },
-
-	}
-    
-    this.axiosHandler({request}).then((res) => {
-      console.log("update", res)
-     
-  	})
-	}
-
   /*----------------------------------------------------------------------------------------------------*/
 
   setUser(data) {
@@ -246,6 +227,7 @@ class AuthService {
       token: localStorage.getItem('id_token'),
       refreshToken: localStorage.getItem('id_refresh_token'),
       role: localStorage.getItem('user_profile_role'),
+      name: localStorage.getItem('user_profile_name'),
       email: localStorage.getItem('user_profile_email'),
     };
   }
