@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import MessageService from '../../services/MessageService';
 import RestService from '../../services/RestService';
 import Select from "react-select";
+import Modal from "react-modal";
+import cep from 'cep-promise'
+
 import "./form.css"
 const Messages = new MessageService();
 const Rest = new RestService();
@@ -497,9 +500,29 @@ class InputCep extends Component {
   
 		e.target.value = valor;
 		this.props.onChange(e);
+		
+		if (valor.length == 9){ 
+			cep(valor,  { timeout: 5000, providers: ['viacep'] }).then((res) => {
+				console.log(res);
+				let e_street = {
+					target: { name: this.props.street_name || "street", value: res.street}
+				};
+				this.props.onChange(e_street);
+				let e_neig = {
+					target: { name: this.props.neighborhood_name || "neighborhood", value: res.neighborhood}
+				};
+				this.props.onChange(e_neig);
+			}).catch(console.log)
+
+		}
+
 	  } else if (valor === "") {
 		this.props.onChange(e);
 	  }
+	}
+
+	handleCepConsult(){
+		
 	}
 	render() {
 	  let classValue;
@@ -549,5 +572,35 @@ class InputCep extends Component {
   }
   
 /*----------------------------------------------------------------------------------------------------*/
+const modalStyle = {
+	content: {
+	  top: "50%",
+	  left: "50%",
+	  right: "auto",
+	  bottom: "auto",
+	  marginRight: "-50%",
+	  transform: "translate(-50%, -50%)",
+	  background: "rgba(0,0,0,0)",
+	  border: "0px",
+	},
+  };
 
-export { InputInGroup, RememberMeInGroup, ButtonSubmit, ButtonCancel, SelectField, Select2Field, InputCpf, InputPis, InputCep};
+class SimpleModal extends Component {
+	render() {
+	  return (
+		<Modal
+		  ariaHideApp={false}
+		  isOpen={this.props.isOpen}
+		  onRequestClose={this.props.closeModal}
+		  style={modalStyle}
+		  contentLabel={"Modal " + this.props.name}
+		>
+		  <div className="modal_div">{this.props.children}</div>
+		</Modal>
+	  );
+	}
+  }
+  
+  /*----------------------------------------------------------------------------------------------------*/
+  
+export { InputInGroup, RememberMeInGroup, ButtonSubmit, ButtonCancel, SelectField, Select2Field, InputCpf, InputPis, InputCep, SimpleModal};

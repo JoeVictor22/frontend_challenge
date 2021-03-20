@@ -108,7 +108,7 @@ class Register extends Component
                 </FormRow>
 
                 <FormRow>
-                <InputCep value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+                	<InputCep street_name={"rua"} value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.cep' required="required" colsize="6" />
 					<InputInGroup  value={this.state.rua} name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.pessoa.fields.rua' required="required" colsize="6" />
