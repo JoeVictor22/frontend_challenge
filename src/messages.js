@@ -93,10 +93,11 @@ export const Messages = {
 				"email": "Email",
 				"role": "Grupo de Usuário",
 				"remember": "Lembrar Senha",
-				"prefeitura": "Prefeitura"
+				"prefeitura": "Prefeitura",
+				"login": "Login"
 			},
 			"login": {
-				"title": "Login",
+				"title": "Olá visitante",
 				"submit": "Entrar",
 				"success": "Login realizado com sucesso!"
 			},

@@ -33,7 +33,7 @@ class Login extends Component
 			<CenterCard title='page.user.login.title'>
 				<form onSubmit={ this.handleSubmit }>
 					<InputInGroup type="text" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-						label='page.user.fields.username' required="required" autofocus="autofocus" />
+						label='page.user.fields.login' required="required" autofocus="autofocus" />
 					<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
 						label='page.user.fields.password' required="required" />
 					
