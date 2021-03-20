@@ -96,32 +96,32 @@ class Register extends Component
 
 			    <FormRow>
 					<InputInGroup  value={this.state.nome} name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.nome' required="required" colsize="12" />
+						label='page.perfil.fields.nome' required="required" colsize="12" />
 				</FormRow>
             
                 <FormRow>
                     <InputCpf  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.cpf' required="required" colsize="6" />
+						label='page.perfil.fields.cpf' required="required" colsize="6" />
 					<InputPis  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.pis' required="required" colsize="6" />
+						label='page.perfil.fields.pis' required="required" colsize="6" />
 
                 </FormRow>
 
                 <FormRow>
                 	<InputCep street_name={"rua"} value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.cep' required="required" colsize="6" />
+						label='page.perfil.fields.cep' required="required" colsize="6" />
 					<InputInGroup  value={this.state.rua} name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.rua' required="required" colsize="6" />
+						label='page.perfil.fields.rua' required="required" colsize="6" />
                 </FormRow>
 				<FormRow>
 					<InputInGroup  value={this.state.numero} name="numero" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.numero' required="required" colsize="6" />
+						label='page.perfil.fields.numero' required="required" colsize="6" />
                     <InputInGroup  value={this.state.complemento} name="complemento" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.complemento' colsize="6" />
+						label='page.perfil.fields.complemento' colsize="6" />
             	</FormRow>
                 <FormRow>
                     <Select2Field value={this.state.cidade_id} name="cidade_id" colsize="12" onChange={this.handleChange} url_view="cidade/view" url_list="cidade/all" filterName="nome" 
-                        displayName={["nome"]} label="page.pessoa.fields.cidade_id" required={true} errors={this.state.fieldErrors} />
+                        displayName={["nome"]} label="page.perfil.fields.cidade_id" required={true} errors={this.state.fieldErrors} />
                 </FormRow>
                 <FormRow>
                     <ButtonSubmit text='page.user.register.submit' onClick={ this.handleOnSubmit }/>

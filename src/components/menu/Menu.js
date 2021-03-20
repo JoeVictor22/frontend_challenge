@@ -12,7 +12,7 @@ class Admin extends Component
 			<SideBar>
 				<SideBarItem active={ false } url="/" name='menu.dashboard' icon={ Icons.dashboard } />			
 				<SideBarItem active={ false } url="/usuario/list" name='menu.user.title' icon={ Icons.stagecenter } />
-				<SideBarItem active={ false } url="/pessoa/list" name='menu.pessoa.title' icon={ Icons.stagecenter } />
+				<SideBarItem active={ false } url="/perfil/list" name='menu.perfil.title' icon={ Icons.stagecenter } />
 
 			</SideBar>
 		);
@@ -29,7 +29,7 @@ class User extends Component
 			<SideBar>
 				<SideBarItem active={ false } url="/" name='menu.dashboard' icon={ Icons.dashboard } />
 				<SideBarItem active={ false } url="/usuario/list" name='menu.user.title' icon={ Icons.stagecenter } />
-				<SideBarItem active={ false } url="/pessoa/list" name='menu.pessoa.title' icon={ Icons.stagecenter } />
+				<SideBarItem active={ false } url="/perfil/list" name='menu.perfil.title' icon={ Icons.stagecenter } />
 
 			</SideBar>
 		);

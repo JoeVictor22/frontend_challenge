@@ -56,11 +56,10 @@ export const Messages = {
 			"search": "Consultar",
 			"user": "Usuários"
 		},
-		"pessoa": {
-			"title": "Cadastro de dados",
+		"perfil": {
+			"title": "Cadastro de perfis",
 			"register": "Registrar",
 			"search": "Consultar",
-			"user": "Pessoas"
 		},
 		"uf": {
 			"title": "Estado",
@@ -90,6 +89,7 @@ export const Messages = {
 				"id": "#",
 				"username": "Usuário",
 				"password": "Senha",
+				"perfil_id": "Perfil",
 				"email": "Email",
 				"role": "Grupo de Usuário",
 				"remember": "Lembrar Senha",
@@ -116,7 +116,7 @@ export const Messages = {
 			}
 
 		},
-		"pessoa": {
+		"perfil": {
 			"fields": {
 				"id": "#",
 				"nome": "Nome",
@@ -130,13 +130,13 @@ export const Messages = {
 				
 			},
 			"list": {
-				"title": "Listar cadastros de dados"
+				"title": "Listar cadastros de perfil"
 			},
 			"add": {
-				"title": "Registrar cadastro de dados"
+				"title": "Registrar perfil"
 			},
 			"edit": {
-				"title": "Editar cadastro de dados"
+				"title": "Editar cadastro de perfil"
 			}
 
 		},

@@ -6,7 +6,7 @@ import MasterLayout from './components/masterLayout/MasterLayout'
 import Home from './pages/home/Home';
 import About from './pages/about/About';
 import {UsersList, UsersAdd, UsersEdit, UsersView} from './pages/users/Users';
-import {PessoaList, PessoaAdd, PessoaEdit, PessoaView} from './pages/pessoa/Pessoa';
+import {PerfilList, PerfilAdd, PerfilEdit, PerfilView} from './pages/perfil/Perfil';
 
 import Login from './pages/login/Login';
 import Register from "./pages/register/Register";
@@ -47,10 +47,10 @@ function Routes()
 							<PrivateRoute path="/usuario/edit" component={ (privateRouteProps) => (<UsersEdit {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/usuario/view" component={ (privateRouteProps) => (<UsersView {...privateRouteProps} {...props} />) } />
 
-							<PrivateRoute path="/pessoa/list" component={ (privateRouteProps) => (<PessoaList {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/pessoa/add" component={ (privateRouteProps) => (<PessoaAdd {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/pessoa/edit" component={ (privateRouteProps) => (<PessoaEdit {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/pessoa/view" component={ (privateRouteProps) => (<PessoaView {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/list" component={ (privateRouteProps) => (<PerfilList {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/add" component={ (privateRouteProps) => (<PerfilAdd {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/edit" component={ (privateRouteProps) => (<PerfilEdit {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/view" component={ (privateRouteProps) => (<PerfilView {...privateRouteProps} {...props} />) } />
 							
 
 						

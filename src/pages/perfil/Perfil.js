@@ -10,29 +10,29 @@ const Rest = new RestService();
 
 const Messages = new MessageService();
 
-class PessoaList extends BasePageList 
+class PerfilList extends BasePageList 
 {
 	static defaultProps = {
-		urlBase: 'pessoa/all',
-		title: 'menu.pessoa.title',
+		urlBase: 'perfil/all',
+		title: 'menu.perfil.title',
 		fields: [
 			{
-				label: "page.pessoa.fields.id",
+				label: "page.perfil.fields.id",
 				field: "id",
 				width: "5%"
 			},
 			{
-				label: 'page.pessoa.fields.nome',
+				label: 'page.perfil.fields.nome',
 				field: "nome",
 				width: "41%"	
 			},
 			{
-				label: 'page.pessoa.fields.cpf',
+				label: 'page.perfil.fields.cpf',
 				field: "cpf",
 				width: "22%"	
 			},
 			{
-				label: 'page.pessoa.fields.pis',
+				label: 'page.perfil.fields.pis',
 				field: "pis",
 				width: "22%"	
 			}
@@ -44,9 +44,9 @@ class PessoaList extends BasePageList
 		let input_fields = [];
 		let filter = <Filter fields={input_fields} onChange={this.handleChange} onSubmit={this.handleOnSubmitFilter}/>;
 		return (
-			<TableData onClickPage={ this.handleClickPage } title='page.pessoa.list.title' 
+			<TableData onClickPage={ this.handleClickPage } title='page.perfil.list.title' 
 				fields={ this.props.fields } data={ this.state.itens } pagination={ this.state.pagination }
-				actions={ this.state.actions } addUrl='/pessoa/add' onEdit={ this.handleOnEditAction }
+				actions={ this.state.actions } addUrl='/perfil/add' onEdit={ this.handleOnEditAction }
 				onDelete={ this.handleOnDeleteAction } onView={ this.handleOnViewAction } filter={filter}/>
 		);
 	}
@@ -55,37 +55,37 @@ class PessoaList extends BasePageList
 
 /*----------------------------------------------------------------------------------------------------*/
 
-class PessoaAdd extends BasePageForm 
+class PerfilAdd extends BasePageForm 
 {
 	static defaultProps = {
-		urlBase: 'pessoa/add',
-		title: Messages.getMessage('menu.pessoa.title')
+		urlBase: 'perfil/add',
+		title: Messages.getMessage('menu.perfil.title')
 	};
 
 	render() 
 	{	
 		return (
-			<FormPage title="page.pessoa.add.title">
+			<FormPage title="page.perfil.add.title">
 				<FormRow>
 					<InputInGroup  name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.nome' required="required" colsize="4" />
+						label='page.perfil.fields.nome' required="required" colsize="4" />
 					<InputCpf  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.cpf' required="required" colsize="4" />
+						label='page.perfil.fields.cpf' required="required" colsize="4" />
 					<InputPis value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.pis' required="required" colsize="4" />
+						label='page.perfil.fields.pis' required="required" colsize="4" />
 				</FormRow>
 			
 				<FormRow>
-					<InputCep value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.cep' required="required" colsize="2" />
-					<InputInGroup  name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.rua' required="required" colsize="3" />
+					<InputCep street_name={"rua"} value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.perfil.fields.cep' required="required" colsize="2" />
+					<InputInGroup  value={this.state.rua} name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.perfil.fields.rua' required="required" colsize="3" />
 					<InputInGroup  name="numero" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.numero' required="required" colsize="1" />
+						label='page.perfil.fields.numero' required="required" colsize="1" />
                     <InputInGroup  name="complemento" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.complemento' colsize="2" />
+						label='page.perfil.fields.complemento' colsize="2" />
                     <Select2Field name="cidade_id" colsize="4" onChange={this.handleChange} url_view="cidade/view" url_list="cidade/all" filterName="nome" 
-                        displayName={["nome"]} label="page.pessoa.fields.cidade_id" required={true} errors={this.state.fieldErrors} />
+                        displayName={["nome"]} label="page.perfil.fields.cidade_id" required={true} errors={this.state.fieldErrors} />
 				</FormRow>
 				<FormRow>
 					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmit } />
@@ -98,11 +98,11 @@ class PessoaAdd extends BasePageForm
 
 /*----------------------------------------------------------------------------------------------------*/
 
-class PessoaEdit extends BasePageForm 
+class PerfilEdit extends BasePageForm 
 {	
 	static defaultProps = {
-		urlBase: 'pessoa/edit',
-		title: Messages.getMessage('menu.pessoa.title')
+		urlBase: 'perfil/edit',
+		title: Messages.getMessage('menu.perfil.title')
 	};
 
 	componentDidMount() {
@@ -111,7 +111,7 @@ class PessoaEdit extends BasePageForm
 			return;
 		}
 		let id = this.props.location.state.item_id;
-		Rest.get( "pessoa/view/" + id, this.state).then(this.handleResponse);
+		Rest.get( "perfil/view/" + id, this.state).then(this.handleResponse);
 	}
 
 
@@ -120,27 +120,27 @@ class PessoaEdit extends BasePageForm
 		return (
 			this.state.error ?
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
-				<FormPage title="page.pessoa.add.title">
+				<FormPage title="page.perfil.add.title">
 			    <FormRow>
 					<InputInGroup  value={this.state.nome} name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.nome' required="required" colsize="4" />
+						label='page.perfil.fields.nome' required="required" colsize="4" />
 					<InputCpf  value={this.state.cpf} name="cpf" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.cpf' required="required" colsize="4" />
+						label='page.perfil.fields.cpf' required="required" colsize="4" />
 					<InputPis  value={this.state.pis} name="pis" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.pis' required="required" colsize="4" />
+						label='page.perfil.fields.pis' required="required" colsize="4" />
 				</FormRow>
 			
 				<FormRow>
-					<InputCep  value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.cep' required="required" colsize="2" />
+					<InputCep  street_name={"rua"} value={this.state.cep} name="cep" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.perfil.fields.cep' required="required" colsize="2" />
 					<InputInGroup  value={this.state.rua} name="rua" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.rua' required="required" colsize="3" />
+						label='page.perfil.fields.rua' required="required" colsize="3" />
 					<InputInGroup  value={this.state.numero} name="numero" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.numero' required="required" colsize="1" />
+						label='page.perfil.fields.numero' required="required" colsize="1" />
                     <InputInGroup  value={this.state.complemento} name="complemento" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-						label='page.pessoa.fields.complemento' colsize="2" />
+						label='page.perfil.fields.complemento' colsize="2" />
                     <Select2Field value={this.state.cidade_id} name="cidade_id" colsize="4" onChange={this.handleChange} url_view="cidade/view" url_list="cidade/all" filterName="nome" 
-                        displayName={["nome"]} label="page.pessoa.fields.cidade_id" required={true} errors={this.state.fieldErrors} />
+                        displayName={["nome"]} label="page.perfil.fields.cidade_id" required={true} errors={this.state.fieldErrors} />
 				</FormRow>
 				<FormRow>
 					<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmitEdit } />
@@ -153,11 +153,11 @@ class PessoaEdit extends BasePageForm
 
 /*----------------------------------------------------------------------------------------------------*/
 
-class PessoaView extends BasePageForm
+class PerfilView extends BasePageForm
 {
 	static defaultProps = {
-		urlBase: 'pessoa/view',
-		title: Messages.getMessage('menu.pessoa.title')
+		urlBase: 'perfil/view',
+		title: Messages.getMessage('menu.perfil.title')
 	};
 
 	componentDidMount() {
@@ -166,7 +166,7 @@ class PessoaView extends BasePageForm
 			return;
 		}
 		let id = this.props.location.state.item_id;
-		Rest.get( "pessoa/view/" + id, this.state).then(this.handleResponse);
+		Rest.get( "perfil/view/" + id, this.state).then(this.handleResponse);
 	}
 
 	render()
@@ -185,10 +185,10 @@ class PessoaView extends BasePageForm
 		return (
 			this.state.error ?
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
-				(<BasicView title={"Pessoa " + this.state.nome} url={"#pessoa/edit?id=" + this.state.id} fields={fields} onClickEdit={this.onClickEdit}/>)
+				(<BasicView title={"Perfil " + this.state.nome} url={"#perfil/edit?id=" + this.state.id} fields={fields} onClickEdit={this.onClickEdit}/>)
 		);
 	}
 }
 
 
-export { PessoaList, PessoaAdd , PessoaEdit,  PessoaView} ;
+export { PerfilList, PerfilAdd , PerfilEdit,  PerfilView} ;
