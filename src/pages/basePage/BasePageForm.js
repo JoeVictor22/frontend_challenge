@@ -21,6 +21,7 @@ class BasePageForm extends BasePage
 		this.handleOnSubmitEdit = this.handleOnSubmitEdit.bind(this);
 		this.handleResponse = this.handleResponse.bind(this);
 		this.onClickEdit = this.onClickEdit.bind(this);
+		this.handleReceiveResponse = this.handleReceiveResponse.bind(this);
 	}
 	
 	handleChange(e)
@@ -64,6 +65,22 @@ class BasePageForm extends BasePage
             AlertifySuccess([{message: res.data.message}]);
             this.props.history.push('/' + this.props.urlBase.split('/')[0] + '/list');
         }
+    }
+	handleReceiveResponse(res)
+    {
+        if (res.data.error)
+    	{ 
+			if (res.data.form){
+				AlertifyError(res.data.form);
+			}
+			if (res.data.message){
+				console.log("vai");
+				AlertifyError([{"message": res.data.message}]);
+			}
+    	}else {
+            AlertifySuccess([{message: res.data.message}]);
+        }
+		return(res);
     }
 
     async handleOnSubmit(e) {

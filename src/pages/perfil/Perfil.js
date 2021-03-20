@@ -195,6 +195,7 @@ class PerfilMe extends BasePageForm
 	constructor(props){
 		super(props);
 		this.handleProfile = this.handleProfile.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	static defaultProps = {
@@ -208,22 +209,29 @@ class PerfilMe extends BasePageForm
 
 	handleProfile(res){
 		this.setState({
-			...res.data.perfil	
+			...res.data.perfil,
+			user_id: res.data.id,	
 		})
 	}
 
-  	handleCancel(e) {
-		console.log("Deletar")
-		//this.props.history.push("/" + this.props.urlBase.split('/')[0] + '/list');
+  	handleDelete(e) {
+		Rest.get("usuario/delete/" + this.state.user_id,).then(this.handleReceiveResponse).then((res) => {
+			if(!res.data.error){
+				this.props.history.push("/");
+			}
+		});
     }
 	
 	render() 
 	{	
 		return (
-			this.props.role == "1"?
+			this.state.error?
 				( <Redirect to={{ pathname: "/", state: { from: this.props.location } }}/> ) :
+				
 				<React.Fragment>
 					<FormPage title="page.perfil.edit.title">
+					{this.state.id ?
+					<React.Fragment> 
 					<FormRow>
 						<InputInGroup  value={this.state.nome} name="nome" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 							label='page.perfil.fields.nome' required="required" colsize="4" />
@@ -249,7 +257,10 @@ class PerfilMe extends BasePageForm
 						<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmitEdit } />
 						<ButtonCancel text="layout.form.cancel" onClick={ this.openModal } />
 					</FormRow>
+					</React.Fragment>
+				: ""}
 				</FormPage>
+				
 				<SimpleModal
 					isOpen={this.state.modal}
 					onRequestClose={this.closeModal}
@@ -257,8 +268,8 @@ class PerfilMe extends BasePageForm
 				<CenterCard title="page.perfil.edit.title">
 					<p>Tem certeza que deseja apagar seu usuário?</p>
 					<FormRow>
-						<ButtonSubmit text="layout.form.save" onClick={ this.handleCancel } />
-						<ButtonCancel text="layout.form.cancel" onClick={ this.closeModal } />
+						<ButtonSubmit text="layout.form.yes" onClick={ this.handleDelete } />
+						<ButtonCancel text="layout.form.no" onClick={ this.closeModal } />
 
 					</FormRow>
 

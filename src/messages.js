@@ -5,6 +5,8 @@ export const Messages = {
 		"paginator": "Página {0} de {1} | {2} registros",
 		"navbar": {
 			"user": {
+				"edit_login": "Editar login",
+				"edit_profile": "Perfil",
 				"settings": "Configurações",
 				"log": "Atividades",
 				"logout": "Sair"
@@ -23,9 +25,12 @@ export const Messages = {
 		"form": {
 		    "search": "Pesquisar",
 			"save": "Salvar",
+			"delete": "Deletar",
 			"cancel": "Cancelar",
             "calcular": "Calcular",
-			"download": "Download"
+			"download": "Download",
+			"yes": "Sim",
+			"no": "Não"
 		},
 		"select-field": {
 			"placeholder": "Digite os dados para buscar",

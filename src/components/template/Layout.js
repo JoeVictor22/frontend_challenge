@@ -120,14 +120,9 @@ class SideBarDropDownDivider extends Component
 
 class NavBar extends Component
 {	
+
 	handleLogoutClick() {
 		Auth.logout();
-	}
-	handleConfigClick(){
-		// TODO: fix url to receive base URL
-		setTimeout(() => {
-			window.location.href = 'http://localhost:3000/#/usuario/list';
-		  }, 500);
 	}
 
 	handleToggleSidebarClick(e) 
@@ -153,6 +148,8 @@ class NavBar extends Component
 
 	render()
 	{	
+		const user =
+		"Olá " + localStorage.getItem("user_profile_name") + "";
 		return (
 			<nav className="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -163,13 +160,32 @@ class NavBar extends Component
 				</button>
 
 				<ul className="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
-					
+					{this.props.role == "2" ? 
+					<li className="nav-item dropdown no-arrow user-profile-data">
+						<Link className="nav-link" to="/">
+							<div
+							className="pl-2 pr-2"
+							style={{
+								borderRadius: "10px",
+								backgroundColor: "#fff",
+								color: "#000",
+							}}
+							>
+							{ user}
+							</div>
+						</Link>
+					</li>
+					: ""}
 					<li className="nav-item dropdown no-arrow">
+						
 						<Link className="nav-link dropdown-toggle" to="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<i className="fas fa-user-circle fa-fw"/>
 						</Link>
 						<div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-							<Link className="dropdown-item" to="#" onClick={ this.handleConfigClick }>{ Messages.getMessage('layout.navbar.user.settings') }</Link>
+							<Link className="dropdown-item" to="/usuario/me">{ Messages.getMessage('layout.navbar.user.edit_login') }</Link>
+							{this.props.role == "2"? 
+							<Link className="dropdown-item" to="/perfil/me">{ Messages.getMessage('layout.navbar.user.edit_profile') }</Link>
+							: ""}
 							<div className="dropdown-divider"/>
 							<Link className="dropdown-item" to="#" onClick={ this.handleLogoutClick } data-toggle="modal" data-target="#logoutModal">{ Messages.getMessage('layout.navbar.user.logout') }</Link>
 						</div>

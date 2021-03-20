@@ -3,7 +3,7 @@ import BasePageList from '../basePage/BasePageList';
 import BasePageForm from '../basePage/BasePageForm';
 import MessageService from '../../services/MessageService';
 import {TableData, FormPage, FormRow, BasicView, Filter} from '../../components/template/Layout';
-import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField } from '../../components/template/Form';
+import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField, Select2Field } from '../../components/template/Form';
 import {Redirect} from "react-router-dom";
 import RestService from "../../services/RestService";
 const Rest = new RestService();
@@ -68,6 +68,8 @@ class UsersAdd extends BasePageForm
 				<FormRow>
 					<SelectField empty={ true } value_name="id" name='cargo_id' errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" />
+					<Select2Field value={this.state.perfil_id} name="perfil_id" colsize="6" onChange={this.handleChange} url_view="perfil/view" url_list="perfil/all" filterName="nome" 
+							displayName={["nome", "cpf", "pis"]} label="page.usuario.fields.perfil_id" required={true} errors={this.state.fieldErrors} />
 				</FormRow>
 
 				<FormRow>
@@ -111,6 +113,9 @@ class UsersEdit extends BasePageForm
 				<FormRow>
 					<SelectField empty={ true } name="cargo_id" value_name="id" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" value={this.state.cargo_id} />
+					<Select2Field value={this.state.perfil_id} name="perfil_id" colsize="6" onChange={this.handleChange} url_view="perfil/view" url_list="perfil/all" filterName="nome" 
+							displayName={["nome", "cpf", "pis"]} label="page.user.fields.perfil_id" required={true} errors={this.state.fieldErrors} />
+	
 				</FormRow>
 
 				<FormRow>
