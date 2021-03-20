@@ -103,7 +103,7 @@ class UsersEdit extends BasePageForm
 		return (
 			this.state.error ?
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
-				<FormPage title="page.user.add.title">
+				<FormPage title="page.user.edit.title">
 				<FormRow>
 					<InputInGroup type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
 						label='page.user.fields.email' required="required" colsize="6" value={this.state.email}/>

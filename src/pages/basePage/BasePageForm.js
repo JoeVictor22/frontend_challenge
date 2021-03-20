@@ -22,7 +22,7 @@ class BasePageForm extends BasePage
 		this.handleResponse = this.handleResponse.bind(this);
 		this.onClickEdit = this.onClickEdit.bind(this);
 	}
-
+	
 	handleChange(e)
 	{
         this.setState({

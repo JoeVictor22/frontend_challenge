@@ -6,7 +6,7 @@ import MasterLayout from './components/masterLayout/MasterLayout'
 import Home from './pages/home/Home';
 import About from './pages/about/About';
 import {UsersList, UsersAdd, UsersEdit, UsersView} from './pages/users/Users';
-import {PerfilList, PerfilAdd, PerfilEdit, PerfilView} from './pages/perfil/Perfil';
+import {PerfilList, PerfilAdd, PerfilEdit, PerfilView, PerfilMe} from './pages/perfil/Perfil';
 
 import Login from './pages/login/Login';
 import Register from "./pages/register/Register";
@@ -51,7 +51,8 @@ function Routes()
 							<PrivateRoute path="/perfil/add" component={ (privateRouteProps) => (<PerfilAdd {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/perfil/edit" component={ (privateRouteProps) => (<PerfilEdit {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/perfil/view" component={ (privateRouteProps) => (<PerfilView {...privateRouteProps} {...props} />) } />
-							
+							<PrivateRoute path="/perfil/me" component={ (privateRouteProps) => (<PerfilMe {...privateRouteProps} {...props} />) } />
+
 
 						
 							<Route path="/login" component={ Login } />
