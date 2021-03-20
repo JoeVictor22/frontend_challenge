@@ -6,7 +6,7 @@ export const Messages = {
 		"navbar": {
 			"user": {
 				"edit_login": "Editar login",
-				"edit_profile": "Perfil",
+				"edit_profile": "Editar perfil",
 				"settings": "Configurações",
 				"log": "Atividades",
 				"logout": "Sair"
@@ -30,7 +30,8 @@ export const Messages = {
             "calcular": "Calcular",
 			"download": "Download",
 			"yes": "Sim",
-			"no": "Não"
+			"no": "Não",
+			"confirm": "Confirmar ação"
 		},
 		"select-field": {
 			"placeholder": "Digite os dados para buscar",
@@ -58,11 +59,13 @@ export const Messages = {
 		"user": {
 			"title": "Usuários",
 			"register": "Registrar",
+			"login": "Editar Login",
 			"search": "Consultar",
 			"user": "Usuários"
 		},
 		"perfil": {
-			"title": "Cadastro de perfis",
+			"title": "Cadastro de perfil",
+			"perfil": "Editar Perfil",
 			"register": "Registrar",
 			"search": "Consultar",
 		},
@@ -70,13 +73,11 @@ export const Messages = {
 			"title": "Estado",
 			"register": "Registrar",
 			"search": "Consultar",
-			"user": "Usuários"
 		},
 		"cidade": {
 			"title": "Cidade",
 			"register": "Registrar",
 			"search": "Consultar",
-			"user": "Usuários"
 		}
 		
 	},
@@ -94,6 +95,8 @@ export const Messages = {
 				"id": "#",
 				"username": "Usuário",
 				"password": "Senha",
+				"password_confirm": "Repita sua senha",
+				"email_confirm": "Repita seu email",
 				"perfil_id": "Perfil",
 				"email": "Email",
 				"role": "Grupo de Usuário",

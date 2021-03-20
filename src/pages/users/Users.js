@@ -2,10 +2,11 @@ import React from 'react';
 import BasePageList from '../basePage/BasePageList';
 import BasePageForm from '../basePage/BasePageForm';
 import MessageService from '../../services/MessageService';
-import {TableData, FormPage, FormRow, BasicView, Filter} from '../../components/template/Layout';
-import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField, Select2Field } from '../../components/template/Form';
+import {TableData, FormPage, FormRow, BasicView, Filter, CenterCard} from '../../components/template/Layout';
+import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField, Select2Field, SimpleModal } from '../../components/template/Form';
 import {Redirect} from "react-router-dom";
 import RestService from "../../services/RestService";
+import { Icons } from '../../iconSet';
 const Rest = new RestService();
 
 const Messages = new MessageService();
@@ -159,5 +160,115 @@ class UsersView extends BasePageForm
 	}
 }
 
+/*----------------------------------------------------------------------------------------------------*/
 
-export { UsersList, UsersAdd , UsersEdit,  UsersView} ;
+class UsersMe extends BasePageForm 
+{	
+	constructor(props){
+		super(props);
+		this.handleProfile = this.handleProfile.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
+	}
+
+	static defaultProps = {
+		urlBase: 'usuario/edit',
+		title: Messages.getMessage('menu.user.title')
+	};
+
+	componentDidMount() {
+		Rest.get("me",).then(this.handleProfile);
+	}
+
+	handleProfile(res){
+		this.setState({
+			...res.data
+		})
+	}
+
+  	handleDelete(e) {
+		Rest.delete("usuario/delete/" + this.state.id,).then(this.handleReceiveResponse).then((res) => {
+			if(!res.data.error){
+				this.props.history.push("/");
+			}
+		});
+    }
+	async handleOnSubmitEdit(e) {
+		console.log("submit edit", this.state)
+		if (this.state.email !== this.state.email_confirm) {
+			this.setState({
+			  fieldErrors: {
+				email_confirm: "O endereço de email é diferente.",
+			  },
+			});
+		  }else if (this.state.senha !== this.state.password_confirm) {
+			this.setState({
+			  fieldErrors: {
+				password_confirm: "A senha é diferente.",
+			  },
+			});
+		  }else{
+			Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(
+				this.handleReceiveResponse
+			);
+		  }
+
+	}
+	render() 
+	{	
+		return (
+			this.state.error?
+				( <Redirect to={{ pathname: "/", state: { from: this.props.location } }}/> ) :
+				
+				<React.Fragment>
+					<FormPage title="page.user.edit.title">
+					{this.state.id ?
+					<React.Fragment> 
+						<FormRow>
+							<InputInGroup type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+								label='page.user.fields.email' required="required" colsize="6" value={this.state.email}/>
+							<InputInGroup type="email" name="email_confirm" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+								label='page.user.fields.email_confirm' required="required" colsize="6"/>
+
+						</FormRow>
+						<FormRow>
+							<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
+								label='page.user.fields.password' required="required"  colsize="6"/>
+							<InputInGroup type="password" name="password_confirm" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
+								label='page.user.fields.password_confirm' required="required"  colsize="6"/>
+						</FormRow>
+
+						<FormRow>
+							<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmitEdit } />
+							<ButtonCancel text="layout.form.delete" onClick={ this.openModal } />
+						</FormRow>
+					</React.Fragment>
+				: 
+				<div className="card-body">
+					<h3 style={{ textAlign: "center" }}>
+						<i className={Icons.loading} /> Carregando...
+					</h3>
+				</div>
+				}
+				</FormPage>
+				
+				<SimpleModal
+					isOpen={this.state.modal}
+					onRequestClose={this.closeModal}
+				>	
+				<CenterCard title="layout.form.confirm">
+					<p>Tem certeza que deseja apagar seu usuário?</p>
+					<FormRow>
+						<ButtonSubmit text="layout.form.yes" onClick={ this.handleDelete } />
+						<ButtonCancel text="layout.form.no" onClick={ this.closeModal } />
+
+					</FormRow>
+
+				</CenterCard>
+					
+				</SimpleModal>
+			</React.Fragment>
+		);
+	}
+}
+
+export { UsersList, UsersAdd , UsersEdit,  UsersView, UsersMe} ;

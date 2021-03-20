@@ -6,6 +6,7 @@ import {TableData, FormPage, FormRow, BasicView, Filter, CenterCard} from '../..
 import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField, InputCep, InputCpf, Select2Field, InputPis, SimpleModal } from '../../components/template/Form';
 import {Redirect} from "react-router-dom";
 import RestService from "../../services/RestService";
+import { Icons } from '../../iconSet';
 const Rest = new RestService();
 
 const Messages = new MessageService();
@@ -215,13 +216,18 @@ class PerfilMe extends BasePageForm
 	}
 
   	handleDelete(e) {
-		Rest.get("usuario/delete/" + this.state.user_id,).then(this.handleReceiveResponse).then((res) => {
+		Rest.delete("usuario/delete/" + this.state.user_id,).then(this.handleReceiveResponse).then((res) => {
 			if(!res.data.error){
 				this.props.history.push("/");
 			}
 		});
     }
-	
+	async handleOnSubmitEdit(e) {
+		console.log("submit edit", this.state)
+		Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(
+			this.handleReceiveResponse
+		);
+	}
 	render() 
 	{	
 		return (
@@ -255,17 +261,23 @@ class PerfilMe extends BasePageForm
 					</FormRow>
 					<FormRow>
 						<ButtonSubmit text="layout.form.save" onClick={ this.handleOnSubmitEdit } />
-						<ButtonCancel text="layout.form.cancel" onClick={ this.openModal } />
+						<ButtonCancel text="layout.form.delete" onClick={ this.openModal } />
 					</FormRow>
 					</React.Fragment>
-				: ""}
+				: 
+				<div className="card-body">
+					<h3 style={{ textAlign: "center" }}>
+						<i className={Icons.loading} /> Carregando...
+					</h3>
+				</div>
+				}
 				</FormPage>
 				
 				<SimpleModal
 					isOpen={this.state.modal}
 					onRequestClose={this.closeModal}
 				>	
-				<CenterCard title="page.perfil.edit.title">
+				<CenterCard title="layout.form.confirm">
 					<p>Tem certeza que deseja apagar seu usuário?</p>
 					<FormRow>
 						<ButtonSubmit text="layout.form.yes" onClick={ this.handleDelete } />
@@ -282,4 +294,4 @@ class PerfilMe extends BasePageForm
 }
 
 
-export { PerfilList, PerfilAdd , PerfilEdit,  PerfilView, PerfilMe} ;
+export { PerfilList, PerfilAdd , PerfilEdit,  PerfilView, PerfilMe};

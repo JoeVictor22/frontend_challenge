@@ -32,9 +32,9 @@ class Login extends Component
 		return (
 			<CenterCard title='page.user.login.title'>
 				<form onSubmit={ this.handleSubmit }>
-					<InputInGroup type="text" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+					<InputInGroup placeholder="email, CPF ou PIS" type="text" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
 						label='page.user.fields.login' required="required" autofocus="autofocus" />
-					<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
+					<InputInGroup placeholder="Digite sua senha" type="password" name="senha" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
 						label='page.user.fields.password' required="required" />
 					
 					<FormRow>

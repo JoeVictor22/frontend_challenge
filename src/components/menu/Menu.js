@@ -28,8 +28,8 @@ class User extends Component
 		return (
 			<SideBar>
 				<SideBarItem active={ false } url="/" name='menu.dashboard' icon={ Icons.dashboard } />
-				<SideBarItem active={ false } url="/usuario/list" name='menu.user.title' icon={ Icons.stagecenter } />
-				<SideBarItem active={ false } url="/perfil/me" name='menu.perfil.title' icon={ Icons.stagecenter } />
+				<SideBarItem active={ false } url="/usuario/me" name='menu.user.login' icon={ Icons.stagecenter } />
+				<SideBarItem active={ false } url="/perfil/me" name='menu.perfil.perfil' icon={ Icons.stagecenter } />
 
 			</SideBar>
 		);

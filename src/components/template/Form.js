@@ -47,6 +47,7 @@ class InputInGroup extends Component {
 			maxLength={this.props.maxLength}
 			checked={this.props.checked}
 			onBlur={this.props.onChange}
+			placeholder={this.props.placeholder}
 		  />
 		  <div className="invalid-feedback">
 			{this.props.errors[this.props.name]

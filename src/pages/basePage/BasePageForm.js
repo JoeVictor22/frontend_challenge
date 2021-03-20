@@ -69,7 +69,23 @@ class BasePageForm extends BasePage
 	handleReceiveResponse(res)
     {
         if (res.data.error)
-    	{ 
+    	{
+			console.log("errors basePageForm", res.data)
+
+			let arrErrors = [];
+    		if (res.data.validation_error !== undefined) {
+				if (res.data.validation_error){
+					let array = res.data.validation_error.body_params;
+					for (const item of array){
+						arrErrors[item.loc[0]] = item.msg;
+					}
+				}
+				this.setState({
+					fieldErrors: arrErrors,
+				});
+				AlertifyError([{"message": "Ocorreram errors durante a validação de alguns dados, verifique o formulário e tente novamente."}]);
+
+			} 
 			if (res.data.form){
 				AlertifyError(res.data.form);
 			}
@@ -77,7 +93,8 @@ class BasePageForm extends BasePage
 				console.log("vai");
 				AlertifyError([{"message": res.data.message}]);
 			}
-    	}else {
+
+    	} else {
             AlertifySuccess([{message: res.data.message}]);
         }
 		return(res);
