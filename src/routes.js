@@ -46,13 +46,13 @@ function Routes()
 							<PrivateRoute path="/usuario/add" component={ (privateRouteProps) => (<UsersAdd {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/usuario/edit" component={ (privateRouteProps) => (<UsersEdit {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/usuario/view" component={ (privateRouteProps) => (<UsersView {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/usuario/me" component={ (privateRouteProps) => (<UsersMe {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/me" component={ (privateRouteProps) => (<UsersMe logout={Auth.logout} {...privateRouteProps} {...props} />) } />
 
 							<PrivateRoute path="/perfil/list" component={ (privateRouteProps) => (<PerfilList {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/perfil/add" component={ (privateRouteProps) => (<PerfilAdd {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/perfil/edit" component={ (privateRouteProps) => (<PerfilEdit {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/perfil/view" component={ (privateRouteProps) => (<PerfilView {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/perfil/me" component={ (privateRouteProps) => (<PerfilMe {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/me" component={ (privateRouteProps) => (<PerfilMe logout={Auth.logout} {...privateRouteProps} {...props} />) } />
 
 
 						

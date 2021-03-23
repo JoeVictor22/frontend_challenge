@@ -51,7 +51,7 @@ class BasePageList extends BasePage
 		if (this._isMounted)
 		console.log("res")
 		{
-			if(res.data.pagination){
+			if(res?.data.pagination){
 				let pagination = {
 					loaded: true,
 					current: res.data.pagination.current,

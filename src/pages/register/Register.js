@@ -64,7 +64,22 @@ class Register extends Component
 
     async handleOnSubmit(e) {
 		console.log("submit", this.state)
-    	Rest.post("usuario/cadastro", this.state).then(this.handleReceiveResponseRest);
+		if (this.state.email !== this.state.email_confirm) {
+			this.setState({
+			  fieldErrors: {
+				email_confirm: "O endereço de email é diferente.",
+			  },
+			});
+		  }else if (this.state.senha !== this.state.senha_confirm) {
+			this.setState({
+			  fieldErrors: {
+				senha_confirm: "A senha é diferente.",
+			  },
+			});
+		  }else{
+			Rest.post("usuario/cadastro", this.state).then(this.handleReceiveResponseRest);
+
+		  }
     
     }
 	
@@ -81,15 +96,15 @@ class Register extends Component
                     <FormRow>
                         <InputInGroup type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
                             label='page.user.fields.email' required="required" colsize="6" />
-                        <InputInGroup type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
-                            label='page.user.fields.email' required="required" colsize="6" />
+                        <InputInGroup type="email" name="email_confirm" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+                            label='page.user.fields.email_confirm' required="required" colsize="6" />
                   
                     </FormRow>
                     <FormRow>
                         <InputInGroup type="password" name="senha" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
                             label='page.user.fields.password' required="required" colsize="6" />
-                        <InputInGroup type="password" name="senha" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-                            label='page.user.fields.password' required="required" colsize="6" />
+                        <InputInGroup type="password" name="senha_confirm" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+                            label='page.user.fields.password_confirm' required="required" colsize="6" />
                     </FormRow>
 
                     <hr />

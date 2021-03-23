@@ -188,7 +188,7 @@ class UsersMe extends BasePageForm
   	handleDelete(e) {
 		Rest.delete("usuario/delete/" + this.state.id,).then(this.handleReceiveResponse).then((res) => {
 			if(!res.data.error){
-				this.props.history.push("/");
+				this.props.logout()
 			}
 		});
     }

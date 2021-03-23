@@ -218,7 +218,7 @@ class PerfilMe extends BasePageForm
   	handleDelete(e) {
 		Rest.delete("usuario/delete/" + this.state.user_id,).then(this.handleReceiveResponse).then((res) => {
 			if(!res.data.error){
-				this.props.history.push("/");
+				this.props.logout()
 			}
 		});
     }

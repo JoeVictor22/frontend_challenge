@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  web-front:
+    container_name: web-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run start
+    volumes:
+      - '.:/usr/src/frontend'
+      - '/usr/src/frontend/node_modules'
+    ports:
+      - 3000:3000
