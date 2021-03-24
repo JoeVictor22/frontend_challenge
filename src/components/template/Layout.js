@@ -8,6 +8,7 @@ import { formatString } from '../utils/Utils';
 import  { Redirect } from 'react-router-dom'
 
 import './Layout.css';
+import Cookies from 'js-cookie';
 
 const Auth = new AuthService();
 const Messages = new MessageService();
@@ -149,7 +150,7 @@ class NavBar extends Component
 	render()
 	{	
 		const user =
-		"Olá " + localStorage.getItem("user_profile_name") + "";
+		"Olá " + Cookies.get("user_profile_name") + "";
 		return (
 			<nav className="navbar navbar-expand navbar-dark bg-dark static-top">
 

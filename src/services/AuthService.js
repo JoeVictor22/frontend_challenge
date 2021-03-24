@@ -2,6 +2,10 @@ import decode from "jwt-decode";
 import { Properties } from "../config";
 import axios from "axios";
 
+
+import Cookies from 'js-cookie';
+
+
 class AuthService {
   /*----------------------------------------------------------------------------------------------------*/
 
@@ -13,6 +17,7 @@ class AuthService {
   }
 
   /*----------------------------------------------------------------------------------------------------*/
+
 
   login(username, password) {
 
@@ -28,10 +33,11 @@ class AuthService {
         
         this.setToken(res.data.access_token);
         this.setRefreshToken(res.data.refresh_token);
-        localStorage.setItem("user_profile_role", res.data.cargo_id);
-        localStorage.setItem("user_profile_email", res.data.email);
-        localStorage.setItem("user_profile_name", res.data.perfil?.nome || "Perfil não cadastrado");
-      
+ 
+        Cookies.set('user_profile_role', res.data.cargo_id);
+        Cookies.set('user_profile_email', res.data.email);
+        Cookies.set('user_profile_name', res.data.perfil?.nome || res.data.email);
+
       }
       return Promise.resolve(res);
     });
@@ -181,35 +187,36 @@ class AuthService {
   /*----------------------------------------------------------------------------------------------------*/
 
   setToken(idToken) {
-    localStorage.setItem("id_token", idToken);
+    Cookies.set('id_token', idToken);
   }
 
   /*----------------------------------------------------------------------------------------------------*/
 
   getToken() {
-    return localStorage.getItem("id_token");
+    return Cookies.get('id_token');
   }
 
   /*----------------------------------------------------------------------------------------------------*/
 
   setRefreshToken(idToken) {
-    localStorage.setItem("id_refresh_token", idToken);
+    Cookies.set('id_refresh_token', idToken);
   }
 
   /*----------------------------------------------------------------------------------------------------*/
 
   getRefreshToken() {
-    return localStorage.getItem("id_refresh_token");
+    return Cookies.get('id_refresh_token');
   }
 
   /*----------------------------------------------------------------------------------------------------*/
 
   logout() {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("id_refresh_token");
-    localStorage.removeItem("user_profile_role");
-    localStorage.removeItem("user_profile_email");
-    localStorage.removeItem("user_profile_name");
+    Cookies.remove('id_token');
+    Cookies.remove("id_token");
+    Cookies.remove("id_refresh_token");
+    Cookies.remove("user_profile_role");
+    Cookies.remove("user_profile_email");
+    Cookies.remove("user_profile_name");
 
     window.location.reload();
   }
@@ -224,11 +231,11 @@ class AuthService {
   getUser() {
     return {
       logged: this.loggedIn(),
-      token: localStorage.getItem('id_token'),
-      refreshToken: localStorage.getItem('id_refresh_token'),
-      role: localStorage.getItem('user_profile_role'),
-      name: localStorage.getItem('user_profile_name'),
-      email: localStorage.getItem('user_profile_email'),
+      token: Cookies.get('id_token'),
+      refreshToken: Cookies.get('id_refresh_token'),
+      role: Cookies.get('user_profile_role'),
+      name: Cookies.get('user_profile_name'),
+      email: Cookies.get('user_profile_email'),
     };
   }
 
@@ -236,7 +243,7 @@ class AuthService {
 
   getUserRole() {
     if (this.getUser() == null) {
-      return localStorage.getItem("user_profile_role");
+      return Cookies.get("user_profile_role");
     } else {
       return this.getUser().role;
     }
