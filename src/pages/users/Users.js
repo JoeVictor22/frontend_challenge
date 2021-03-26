@@ -48,11 +48,33 @@ class UsersList extends BasePageList
 
 class UsersAdd extends BasePageForm 
 {
+	constructor(props){
+		super(props);
+	}
 	static defaultProps = {
 		urlBase: 'usuario/add',
 		title: Messages.getMessage('menu.user.title')
 	};
 
+    async handleOnSubmit(e) {
+		if (this.state.email !== this.state.email_confirm) {
+			this.setState({
+			  fieldErrors: {
+				email_confirm: "O endereço de email é diferente.",
+			  },
+			});
+		  }else if (this.state.senha !== this.state.senha_confirm) {
+			this.setState({
+			  fieldErrors: {
+				senha_confirm: "A senha é diferente.",
+			  },
+			});
+		  }else{
+			console.log("submit", this.state)
+			Rest.post(this.props.urlBase, this.state).then(this.handleReceiveResponseRest);
+		  }
+
+    }
 	render() 
 	{	
 		return (
@@ -60,17 +82,24 @@ class UsersAdd extends BasePageForm
 				<FormRow>
 					<InputInGroup type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.user.fields.email' required="required" colsize="6" />
+					<InputInGroup type="email" name="email_confirm" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.user.fields.email_confirm' required="required" colsize="6" />
+				
 				</FormRow>
 				<FormRow>
 					<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
 						label='page.user.fields.password' required="required" colsize="6" />
+					<InputInGroup type="password" name="senha_confirm" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+						label='page.user.fields.password_confirm' required="required" colsize="6" />
 				</FormRow>
-
 				<FormRow>
 					<SelectField empty={ true } value_name="id" name='cargo_id' errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" />
+					{this.state.cargo_id == 2 ? 
 					<Select2Field value={this.state.perfil_id} name="perfil_id" colsize="6" onChange={this.handleChange} url_view="perfil/view" url_list="perfil/all" filterName="nome" 
-							displayName={["nome", "cpf", "pis"]} label="page.usuario.fields.perfil_id" required={true} errors={this.state.fieldErrors} />
+						displayName={["nome", "cpf", "pis"]} label="page.user.fields.perfil_id" errors={this.state.fieldErrors} />
+					: ""}
+					
 				</FormRow>
 
 				<FormRow>
@@ -100,6 +129,20 @@ class UsersEdit extends BasePageForm
 		Rest.get( "usuario/view/" + id, this.state).then(this.handleResponse);
 	}
 
+	async handleOnSubmitEdit(e) {
+		if (this.state.email !== this.state.email_confirm) {
+			this.setState({
+			  fieldErrors: {
+				email_confirm: "O endereço de email é diferente.",
+			  },
+			});
+		  }else{
+			console.log("submit edit", this.state)
+			Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(
+				this.handleReceiveResponseRest
+			);
+		  }
+	}
 
 	render() 
 	{	
@@ -108,15 +151,21 @@ class UsersEdit extends BasePageForm
 				( <Redirect to={{ pathname: "/login", state: { from: this.props.location } }}/> ) :
 				<FormPage title="page.user.edit.title">
 				<FormRow>
-					<InputInGroup type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-						label='page.user.fields.email' required="required" colsize="6" value={this.state.email}/>
+					<InputInGroup value={this.state.email} type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.user.fields.email' required="required" colsize="6" />
+					<InputInGroup type="email" name="email_confirm" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
+						label='page.user.fields.email_confirm' required="required" colsize="6" />
+				
 				</FormRow>
+
 				<FormRow>
 					<SelectField empty={ true } name="cargo_id" value_name="id" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" value={this.state.cargo_id} />
+					
+					{this.state.cargo_id == 2 ? 
 					<Select2Field value={this.state.perfil_id} name="perfil_id" colsize="6" onChange={this.handleChange} url_view="perfil/view" url_list="perfil/all" filterName="nome" 
-							displayName={["nome", "cpf", "pis"]} label="page.user.fields.perfil_id" required={true} errors={this.state.fieldErrors} />
-	
+							displayName={["nome", "cpf", "pis"]} label="page.user.fields.perfil_id"  errors={this.state.fieldErrors} />
+					: ""}
 				</FormRow>
 
 				<FormRow>
@@ -194,23 +243,28 @@ class UsersMe extends BasePageForm
     }
 	async handleOnSubmitEdit(e) {
 		console.log("submit edit", this.state)
+
+		
+		var errors = {"has": false}
+
+
 		if (this.state.email !== this.state.email_confirm) {
+			errors["email_confirm"] = "O endereço de email é diferente.";
+			errors["has"] = true;
+		}if (this.state.senha !== this.state.senha_confirm) {
+			errors["senha_confirm"] = "A senha é diferente."
+			errors["has"] = true;
+		}
+		
+
+		if (errors["has"]){
 			this.setState({
-			  fieldErrors: {
-				email_confirm: "O endereço de email é diferente.",
-			  },
-			});
-		  }else if (this.state.senha !== this.state.password_confirm) {
-			this.setState({
-			  fieldErrors: {
-				password_confirm: "A senha é diferente.",
-			  },
-			});
-		  }else{
-			Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(
-				this.handleReceiveResponse
-			);
-		  }
+				fieldErrors: {...this.state.fieldErrors, ...errors}
+			})
+		}else{
+			Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(this.handleReceiveResponse);
+		}
+
 
 	}
 	render() 
@@ -233,7 +287,7 @@ class UsersMe extends BasePageForm
 						<FormRow>
 							<InputInGroup type="password" name="senha" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
 								label='page.user.fields.password' required="required"  colsize="6"/>
-							<InputInGroup type="password" name="password_confirm" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
+							<InputInGroup type="password" name="senha_confirm" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
 								label='page.user.fields.password_confirm' required="required"  colsize="6"/>
 						</FormRow>
 

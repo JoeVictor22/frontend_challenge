@@ -455,7 +455,7 @@ class TableData extends Component
 		let empty_card =
 		<div className="card text-gray text-center ">
 			<div className="card-body p-4">
-				<h3 className="card-title">Não há nada aqui =( </h3>
+				<h3 className="card-title">Sem registros</h3>
 				<p className="card-text primary-text text-center" >
 					Parece que ainda não há nada cadastrado aqui.
 				</p>

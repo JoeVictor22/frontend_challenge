@@ -64,19 +64,24 @@ class Register extends Component
 
     async handleOnSubmit(e) {
 		console.log("submit", this.state)
+			
+		var errors = {"has": false}
+
+
 		if (this.state.email !== this.state.email_confirm) {
+			errors["email_confirm"] = "O endereço de email é diferente.";
+			errors["has"] = true;
+		}if (this.state.senha !== this.state.senha_confirm) {
+			errors["senha_confirm"] = "A senha é diferente."
+			errors["has"] = true;
+		}
+		
+
+		if (errors["has"]){
 			this.setState({
-			  fieldErrors: {
-				email_confirm: "O endereço de email é diferente.",
-			  },
-			});
-		  }else if (this.state.senha !== this.state.senha_confirm) {
-			this.setState({
-			  fieldErrors: {
-				senha_confirm: "A senha é diferente.",
-			  },
-			});
-		  }else{
+				fieldErrors: {...this.state.fieldErrors, ...errors}
+			})
+		}else{
 			Rest.post("usuario/cadastro", this.state).then(this.handleReceiveResponseRest);
 
 		  }
