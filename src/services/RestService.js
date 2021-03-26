@@ -1,115 +1,39 @@
-import axios from 'axios';
-import { Properties } from '../config';
-import AuthService from './AuthService';
+import axios from "axios";
+import { Properties } from "../config";
+import AuthService from "./AuthService";
 
 class RestService {
+  /*----------------------------------------------------------------------------------------------------*/
 
-	/*----------------------------------------------------------------------------------------------------*/
+  constructor() {
+    this.Auth = new AuthService();
+  }
 
-	constructor() {
-		this.Auth = new AuthService();
-	}
+  /*----------------------------------------------------------------------------------------------------*/
 
-	/*----------------------------------------------------------------------------------------------------*/
+  get(urlBase, parameters, headers = {}) {
+    return this.Auth.doRequest(urlBase, "GET", parameters, headers, null);
+  }
 
-	get(urlBase, parameters) {
-		if (!this.Auth.loggedIn()) {
-			this.props.history.replace('/');
-		}
+  /*----------------------------------------------------------------------------------------------------*/
 
-		const url = `${Properties.domain}/${urlBase}`;
-		const token = this.Auth.getAuthorizationHeader();
+  post(urlBase, parameters, headers = {}) {
+    return this.Auth.doRequest(urlBase, "POST", parameters, headers, null);
+  }
 
-		return axios({
-			method: 'GET',
-			params: parameters,
-			url: url,
-			headers: {
-				Authorization: token
-			}
-		});
-	}
+  /*----------------------------------------------------------------------------------------------------*/
 
-	/*----------------------------------------------------------------------------------------------------*/
+  delete(urlBase, parameters, headers = {}) {
+    return this.Auth.doRequest(urlBase, "DELETE", parameters, headers, null);
+  }
 
-	post(urlBase, parameters) {
-		if (!this.Auth.loggedIn()) {
-			this.props.history.replace('/');
-		}
+  /* ----------------------------------------------------------------------------------------------------*/
 
-		const url = `${Properties.domain}/${urlBase}`;
-		const token = this.Auth.getAuthorizationHeader();
+  put(urlBase, parameters, headers = {}) {
+    return this.Auth.doRequest(urlBase, "PUT", parameters, headers, null);
+  }
 
-		return axios({
-			method: 'POST',
-			data: parameters,
-			url: url,
-			headers: {
-				Authorization: token
-			}
-		});
-	}
-
-	/*----------------------------------------------------------------------------------------------------*/
-
-	delete(urlBase, parameters) {
-		if (!this.Auth.loggedIn()) {
-			this.props.history.replace('/');
-		}
-
-		const url = `${Properties.domain}/${urlBase}`;
-		const token = this.Auth.getAuthorizationHeader();
-
-		return axios({
-			method: 'DELETE',
-			data: parameters,
-			url: url,
-			headers: {
-				Authorization: token
-			}
-		});
-	}
-
-	/* ----------------------------------------------------------------------------------------------------*/
-
-	edit(urlBase, parameters) {
-		if (!this.Auth.loggedIn()) {
-			this.props.history.replace('/');
-		}
-
-		const url = `${Properties.domain}/${urlBase}`;
-		const token = this.Auth.getAuthorizationHeader();
-
-		return axios({
-			method: 'PUT',
-			data: parameters,
-			url: url,
-			headers: {
-				Authorization: token
-			}
-		});
-	}
-
-	/* ----------------------------------------------------------------------------------------------------*/
-
-	view(urlBase, parameters) {
-		if (!this.Auth.loggedIn()) {
-			this.props.history.replace('/');
-		}
-
-		const url = `${Properties.domain}/${urlBase}`;
-		const token = this.Auth.getAuthorizationHeader();
-
-		return axios({
-			method: 'GET',
-			data: parameters,
-			url: url,
-			headers: {
-				Authorization: token
-			}
-		});
-	}
-
+  /*----------------------------------------------------------------------------------------------------*/
 }
 
 export default RestService;

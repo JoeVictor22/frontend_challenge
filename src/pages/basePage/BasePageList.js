@@ -51,20 +51,22 @@ class BasePageList extends BasePage
 		if (this._isMounted)
 		console.log("res")
 		{
-			let pagination = {
-				loaded: true,
-				current: res.data.pagination.current,
-				itens_count: res.data.pagination.itens_count,
-				itens_per_page: res.data.pagination.itens_per_page,
-				next: res.data.pagination.next,
-				pages_count: res.data.pagination.pages_count,
-				prev: res.data.pagination.prev
-			};
-			
-			this.setState({
-				itens: [...res.data.itens],
-				pagination: pagination
-			});
+			if(res?.data.pagination){
+				let pagination = {
+					loaded: true,
+					current: res.data.pagination.current,
+					itens_count: res.data.pagination.itens_count,
+					itens_per_page: res.data.pagination.itens_per_page,
+					next: res.data.pagination.next,
+					pages_count: res.data.pagination.pages_count,
+					prev: res.data.pagination.prev
+				};
+				
+				this.setState({
+					itens: [...res.data.itens],
+					pagination: pagination
+				});
+			}
 		}
 	}
 

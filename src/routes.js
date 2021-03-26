@@ -5,11 +5,11 @@ import MasterLayout from './components/masterLayout/MasterLayout'
 
 import Home from './pages/home/Home';
 import About from './pages/about/About';
-import {UsersList, UsersAdd, UsersEdit, UsersView} from './pages/users/Users';
-import {CidadeList, CidadeAdd, CidadeEdit, CidadeView} from './pages/cidade/Cidade';
-import {UfList, UfAdd, UfEdit, UfView} from './pages/uf/Uf';
+import {UsersList, UsersAdd, UsersEdit, UsersView, UsersMe} from './pages/users/Users';
+import {PerfilList, PerfilAdd, PerfilEdit, PerfilView, PerfilMe} from './pages/perfil/Perfil';
 
 import Login from './pages/login/Login';
+import Register from "./pages/register/Register";
 
 const Auth = new AuthService();
 
@@ -42,22 +42,23 @@ function Routes()
 							<PrivateRoute exact path="/" component={ (privateRouteProps) => (<Home {...privateRouteProps} {...props} />) } />
 							<PrivateRoute path="/about" component={ (privateRouteProps) => (<About {...privateRouteProps} {...props} />) } />
 
-							<PrivateRoute path="/user/list" component={ (privateRouteProps) => (<UsersList {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/user/add" component={ (privateRouteProps) => (<UsersAdd {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/user/edit" component={ (privateRouteProps) => (<UsersEdit {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/user/view" component={ (privateRouteProps) => (<UsersView {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/list" component={ (privateRouteProps) => (<UsersList {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/add" component={ (privateRouteProps) => (<UsersAdd {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/edit" component={ (privateRouteProps) => (<UsersEdit {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/view" component={ (privateRouteProps) => (<UsersView {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/usuario/me" component={ (privateRouteProps) => (<UsersMe logout={Auth.logout} {...privateRouteProps} {...props} />) } />
 
-							<PrivateRoute path="/cidade/list" component={ (privateRouteProps) => (<CidadeList {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/cidade/add" component={ (privateRouteProps) => (<CidadeAdd {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/cidade/edit" component={ (privateRouteProps) => (<CidadeEdit {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/cidade/view" component={ (privateRouteProps) => (<CidadeView {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/list" component={ (privateRouteProps) => (<PerfilList {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/add" component={ (privateRouteProps) => (<PerfilAdd {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/edit" component={ (privateRouteProps) => (<PerfilEdit {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/view" component={ (privateRouteProps) => (<PerfilView {...privateRouteProps} {...props} />) } />
+							<PrivateRoute path="/perfil/me" component={ (privateRouteProps) => (<PerfilMe logout={Auth.logout} {...privateRouteProps} {...props} />) } />
 
-							<PrivateRoute path="/uf/list" component={ (privateRouteProps) => (<UfList {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/uf/add" component={ (privateRouteProps) => (<UfAdd {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/uf/edit" component={ (privateRouteProps) => (<UfEdit {...privateRouteProps} {...props} />) } />
-							<PrivateRoute path="/uf/view" component={ (privateRouteProps) => (<UfView {...privateRouteProps} {...props} />) } />
 
+						
 							<Route path="/login" component={ Login } />
+							<Route path="/register" component={ Register } />
+
 						</Switch>
 				}
 				

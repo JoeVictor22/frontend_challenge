@@ -71,7 +71,7 @@ class MasterLayout extends Component
 		const Nav = (props) => 
 		{
 			if (props.role != null) {
-				return <NavBar />;
+				return <NavBar {...props}/>;
 			} 
 			else {
 				return <div></div>;

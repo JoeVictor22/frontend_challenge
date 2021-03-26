@@ -5,8 +5,10 @@ import MessageService from '../../services/MessageService';
 import { Properties } from '../../config';
 import { Icons } from '../../iconSet';
 import { formatString } from '../utils/Utils';
+import  { Redirect } from 'react-router-dom'
 
 import './Layout.css';
+import Cookies from 'js-cookie';
 
 const Auth = new AuthService();
 const Messages = new MessageService();
@@ -119,6 +121,7 @@ class SideBarDropDownDivider extends Component
 
 class NavBar extends Component
 {	
+
 	handleLogoutClick() {
 		Auth.logout();
 	}
@@ -146,6 +149,8 @@ class NavBar extends Component
 
 	render()
 	{	
+		const user =
+		"Olá " + Cookies.get("user_profile_name") + "";
 		return (
 			<nav className="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -156,37 +161,32 @@ class NavBar extends Component
 				</button>
 
 				<ul className="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
-					<li className="nav-item dropdown no-arrow mx-1">
-						<Link className="nav-link dropdown-toggle" to="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i className="fas fa-bell fa-fw"/>
-							<span className="badge badge-danger">9+</span>
+					{this.props.role == "2" ? 
+					<li className="nav-item dropdown no-arrow user-profile-data">
+						<Link className="nav-link" to="/">
+							<div
+							className="pl-2 pr-2"
+							style={{
+								borderRadius: "10px",
+								backgroundColor: "#fff",
+								color: "#000",
+							}}
+							>
+							{ user}
+							</div>
 						</Link>
-						<div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.action') }</Link>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.other') }</Link>
-							<div className="dropdown-divider"/>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.something') }</Link>
-						</div>
 					</li>
-					<li className="nav-item dropdown no-arrow mx-1">
-						<Link className="nav-link dropdown-toggle" to="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i className="fas fa-envelope fa-fw"/>
-							<span className="badge badge-danger">7</span>
-						</Link>
-						<div className="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.action') }</Link>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.other') }</Link>
-							<div className="dropdown-divider"/>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.messages.something') }</Link>
-						</div>
-					</li>
+					: ""}
 					<li className="nav-item dropdown no-arrow">
+						
 						<Link className="nav-link dropdown-toggle" to="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<i className="fas fa-user-circle fa-fw"/>
 						</Link>
 						<div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.user.settings') }</Link>
-							<Link className="dropdown-item" to="#">{ Messages.getMessage('layout.navbar.user.log') }</Link>
+							<Link className="dropdown-item" to="/usuario/me">{ Messages.getMessage('layout.navbar.user.edit_login') }</Link>
+							{this.props.role == "2"? 
+							<Link className="dropdown-item" to="/perfil/me">{ Messages.getMessage('layout.navbar.user.edit_profile') }</Link>
+							: ""}
 							<div className="dropdown-divider"/>
 							<Link className="dropdown-item" to="#" onClick={ this.handleLogoutClick } data-toggle="modal" data-target="#logoutModal">{ Messages.getMessage('layout.navbar.user.logout') }</Link>
 						</div>
@@ -455,14 +455,17 @@ class TableData extends Component
 		let empty_card =
 		<div className="card text-gray text-center ">
 			<div className="card-body p-4">
-				<h3 className="card-title">Não há nada aqui =( </h3>
+				<h3 className="card-title">Sem registros</h3>
 				<p className="card-text primary-text text-center" >
 					Parece que ainda não há nada cadastrado aqui.
 				</p>
 			</div>
 		</div>;
-		let loading = <div className="text-center">
-				<h3>Loading...</h3>
+
+		let loading = <div className="card-body">
+		<h3 style={{ textAlign: "center" }}>
+			<i className={Icons.loading} /> Carregando...
+		</h3>
 		</div>
 		return (
 		    <div className="card mb-3">

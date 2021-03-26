@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AuthService from '../../services/AuthService';
 import MessageService from '../../services/MessageService';
 import { AlertifyError, AlertifySuccess } from '../../services/AlertifyService';
-import { CenterCard } from '../../components/template/Layout';
+import { CenterCard, FormRow } from '../../components/template/Layout';
 import { InputInGroup, RememberMeInGroup, ButtonSubmit } from '../../components/template/Form';
 
 const Message = new MessageService();
@@ -15,24 +15,34 @@ class Login extends Component
 		super();
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.registerPage = this.registerPage.bind(this);
 		this.Auth = new AuthService();
 		this.state = {
 			fieldErrors: [],
 		}; 
 	}
 	
+
+	registerPage() {
+		this.props.history.push("/register");
+	}
+	
 	render()
 	{
 		return (
 			<CenterCard title='page.user.login.title'>
-                <form onSubmit={ this.handleSubmit }>
-					<InputInGroup type="text" name="username" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-						label='page.user.fields.username' required="required" autofocus="autofocus" />
-					<InputInGroup type="password" name="password" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
+				<form onSubmit={ this.handleSubmit }>
+					<InputInGroup placeholder="email, CPF ou PIS" type="text" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
+						label='page.user.fields.login' required="required" autofocus="autofocus" />
+					<InputInGroup placeholder="Digite sua senha" type="password" name="senha" errors={ this.state.fieldErrors } onChange={ this.handleChange } 
 						label='page.user.fields.password' required="required" />
-					<RememberMeInGroup text='page.user.fields.remember' />
-					<ButtonSubmit type="submit" text='page.user.login.submit' />
+					
+					<FormRow>
+						<ButtonSubmit type="submit" text='page.user.login.submit' />
+						<ButtonSubmit onClick={this.registerPage} text='page.user.register.submit' />
+					</FormRow>
 				</form>
+
 			</CenterCard>
 		);
 	}
@@ -47,12 +57,15 @@ class Login extends Component
 
     handleErrorLogin(errors)
     {
-        let arrErrors = [];
-        let arrKeys = Object.keys(errors.fields)
-        
-        for (let i = 0; i < arrKeys.length; i++) {
-            arrErrors[arrKeys[i]] = errors.fields[arrKeys[i]].message;
-        }
+		console.log("errors login", errors)
+		let arrErrors = [];
+			
+		if (errors.validation_error){
+			let array = errors.validation_error.body_params;
+			for (const item of array){
+				arrErrors[item.loc[0]] = item.msg;
+			}
+		}
 
         this.setState({
             fieldErrors: arrErrors,
@@ -64,11 +77,11 @@ class Login extends Component
     handleSubmit(e) 
     {
     	e.preventDefault();
-    	this.Auth.login(this.state.username, this.state.password)
+    	this.Auth.login(this.state.email, this.state.senha)
     		.then(res => {
-    			if (res.error)
+    			if (res.data.error)
     			{
-    				this.handleErrorLogin(res.errors);
+    				this.handleErrorLogin(res.data);
     			} else {
     				AlertifySuccess([{message: Message.getMessage('page.user.login.success')}]);
                     this.props.history.push('/');

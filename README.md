@@ -1,2 +1,2 @@
-# guerreirinhos-frontend
-Front-end do projeto guerreirinhos
+# frontend
+Front-end

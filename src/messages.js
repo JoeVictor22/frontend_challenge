@@ -5,6 +5,8 @@ export const Messages = {
 		"paginator": "Página {0} de {1} | {2} registros",
 		"navbar": {
 			"user": {
+				"edit_login": "Editar login",
+				"edit_profile": "Editar perfil",
 				"settings": "Configurações",
 				"log": "Atividades",
 				"logout": "Sair"
@@ -23,10 +25,17 @@ export const Messages = {
 		"form": {
 		    "search": "Pesquisar",
 			"save": "Salvar",
+			"delete": "Deletar",
 			"cancel": "Cancelar",
             "calcular": "Calcular",
-			"download": "Download"
-		}
+			"download": "Download",
+			"yes": "Sim",
+			"no": "Não",
+			"confirm": "Confirmar ação"
+		},
+		"select-field": {
+			"placeholder": "Digite os dados para buscar",
+		},
 	},
 	"menu":{
 		"dashboard": "Dashboard",
@@ -50,20 +59,25 @@ export const Messages = {
 		"user": {
 			"title": "Usuários",
 			"register": "Registrar",
+			"login": "Editar Login",
 			"search": "Consultar",
 			"user": "Usuários"
+		},
+		"perfil": {
+			"title": "Cadastro de perfil",
+			"perfil": "Editar Perfil",
+			"register": "Registrar",
+			"search": "Consultar",
 		},
 		"uf": {
 			"title": "Estado",
 			"register": "Registrar",
 			"search": "Consultar",
-			"user": "Usuários"
 		},
 		"cidade": {
 			"title": "Cidade",
 			"register": "Registrar",
 			"search": "Consultar",
-			"user": "Usuários"
 		}
 		
 	},
@@ -81,15 +95,24 @@ export const Messages = {
 				"id": "#",
 				"username": "Usuário",
 				"password": "Senha",
+				"password_confirm": "Repita sua senha",
+				"email_confirm": "Repita seu email",
+				"perfil_id": "Perfil",
 				"email": "Email",
 				"role": "Grupo de Usuário",
 				"remember": "Lembrar Senha",
-				"prefeitura": "Prefeitura"
+				"prefeitura": "Prefeitura",
+				"login": "Login"
 			},
 			"login": {
-				"title": "Login",
+				"title": "Olá visitante",
 				"submit": "Entrar",
 				"success": "Login realizado com sucesso!"
+			},
+			"register":{
+				"title": "Cadastro novo usuário",
+				"submit": "Criar cadastro",
+				"success": "Cadastro realizado com sucesso!"
 			},
 			"list": {
 				"title": "Listar Usuários"
@@ -99,6 +122,30 @@ export const Messages = {
 			},
 			"edit": {
 				"title": "Editar Usuários"
+			}
+
+		},
+		"perfil": {
+			"fields": {
+				"id": "#",
+				"nome": "Nome",
+				"cpf": "CPF",
+				"pis": "PIS",
+				"cep": "CEP",
+				"rua": "Rua",
+				"numero": "Número",
+				"complemento": "Complemento",
+				"cidade_id": "Cidade"
+				
+			},
+			"list": {
+				"title": "Listar cadastros de perfil"
+			},
+			"add": {
+				"title": "Registrar perfil"
+			},
+			"edit": {
+				"title": "Editar cadastro de perfil"
 			}
 
 		},
