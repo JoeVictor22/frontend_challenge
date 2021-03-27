@@ -37,7 +37,7 @@ class SideBar extends Component
 	render()
 	{
 		return (
-			<ul className="sidebar navbar-nav">
+			<ul className="sidebar navbar-nav toggled">
 				{ this.props.children }
 			</ul>
 		);
@@ -204,7 +204,7 @@ class Footer extends Component
 	render()
 	{
 		return (
-			<footer className="sticky-footer">
+			<footer className="sticky-footer" style={{ width: "100%", zIndex: 2 }}>
 				<div className="container my-auto">
 					<div className="copyright text-center my-auto">
 						<span>{ Messages.getMessage('layout.copyright') } © { Properties.company } { Properties.year }</span><br/>
