@@ -55,8 +55,6 @@ class Select2Field extends Component {
 	  this.setState({
 		selectedValue: e,
 	  });
-	  console.log(e);
-	  console.log(this.state.options);
 	  const event = {
 		target: {
 		  name: this.props.name,

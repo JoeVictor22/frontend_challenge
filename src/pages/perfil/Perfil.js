@@ -3,7 +3,7 @@ import BasePageList from '../basePage/BasePageList';
 import BasePageForm from '../basePage/BasePageForm';
 import MessageService from '../../services/MessageService';
 import {TableData, FormPage, FormRow, BasicView, Filter, CenterCard} from '../../components/template/Layout';
-import { ButtonSubmit, ButtonCancel, InputInGroup, SelectField, InputCep, InputCpf, Select2Field, InputPis, SimpleModal } from '../../components/template/Form';
+import { ButtonSubmit, ButtonCancel, InputInGroup, InputCep, InputCpf, Select2Field, InputPis, SimpleModal } from '../../components/template/Form';
 import {Redirect} from "react-router-dom";
 import RestService from "../../services/RestService";
 import { Icons } from '../../iconSet';
@@ -223,7 +223,6 @@ class PerfilMe extends BasePageForm
 		});
     }
 	async handleOnSubmitEdit(e) {
-		console.log("submit edit", this.state)
 		Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(
 			this.handleReceiveResponse
 		);

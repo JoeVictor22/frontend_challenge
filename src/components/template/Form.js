@@ -132,7 +132,6 @@ class SelectField extends Component
 	componentDidMount()
 	{
 		this._isMounted = true;
-		console.log(this.props.url);
 		this._isMounted && Rest.get(this.props.url, this.props.urlParameters).then(this.handleReceiveOption);
 	}
 
@@ -165,7 +164,6 @@ class SelectField extends Component
 		}
 
 		key=1;
-		console.log(this.state.options);
 		const options = this.state.options.map((data) =>
 			<option key={key++} value={data[this.props.value_name?this.props.value_name:this.props.name]}>{ data.nome ? data.nome: this.concatenarValues(data) }</option>
 		);
@@ -238,8 +236,6 @@ class Select2Field extends Component {
 	  this.setState({
 		selectedValue: e,
 	  });
-	  console.log(e);
-	  console.log(this.state.options);
 	  const event = {
 		target: {
 		  name: this.props.name,
@@ -502,9 +498,8 @@ class InputCep extends Component {
 		e.target.value = valor;
 		this.props.onChange(e);
 		
-		if (valor.length == 9){ 
+		if (valor.length === 9){ 
 			cep(valor,  { timeout: 5000, providers: ['viacep'] }).then((res) => {
-				console.log(res);
 				let e_street = {
 					target: { name: this.props.street_name || "street", value: res.street}
 				};

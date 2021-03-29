@@ -3,7 +3,7 @@ import AuthService from '../../services/AuthService';
 import MessageService from '../../services/MessageService';
 import { AlertifyError, AlertifySuccess } from '../../services/AlertifyService';
 import { CenterCard, FormRow } from '../../components/template/Layout';
-import { InputInGroup, RememberMeInGroup, ButtonSubmit } from '../../components/template/Form';
+import { InputInGroup, ButtonSubmit } from '../../components/template/Form';
 
 const Message = new MessageService();
 
@@ -57,7 +57,6 @@ class Login extends Component
 
     handleErrorLogin(errors)
     {
-		console.log("errors login", errors)
 		let arrErrors = [];
 			
 		if (errors.validation_error){

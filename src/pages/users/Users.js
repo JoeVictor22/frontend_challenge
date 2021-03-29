@@ -48,9 +48,7 @@ class UsersList extends BasePageList
 
 class UsersAdd extends BasePageForm 
 {
-	constructor(props){
-		super(props);
-	}
+
 	static defaultProps = {
 		urlBase: 'usuario/add',
 		title: Messages.getMessage('menu.user.title')
@@ -74,7 +72,6 @@ class UsersAdd extends BasePageForm
 				fieldErrors: {...this.state.fieldErrors, ...errors}
 			})
 		}else{
-			console.log("submit", this.state)
 			Rest.post(this.props.urlBase, this.state).then(this.handleReceiveResponseRest);
 		  }
 
@@ -99,7 +96,7 @@ class UsersAdd extends BasePageForm
 				<FormRow>
 					<SelectField empty={ true } value_name="id" name='cargo_id' errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" />
-					{this.state.cargo_id == 2 ? 
+					{this.state.cargo_id === 2 ? 
 					<Select2Field value={this.state.perfil_id} name="perfil_id" colsize="6" onChange={this.handleChange} url_view="perfil/view" url_list="perfil/all" filterName="nome" 
 						displayName={["nome", "cpf", "pis"]} label="page.user.fields.perfil_id" errors={this.state.fieldErrors} />
 					: ""}
@@ -147,7 +144,6 @@ class UsersEdit extends BasePageForm
 				fieldErrors: {...this.state.fieldErrors, ...errors}
 			})
 		}else{
-			console.log("submit edit", this.state)
 			Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(
 				this.handleReceiveResponseRest
 			);
@@ -172,7 +168,7 @@ class UsersEdit extends BasePageForm
 					<SelectField empty={ true } name="cargo_id" value_name="id" errors={ this.state.fieldErrors }  onChange={ this.handleChange }
 						label='page.user.fields.role' required="required" colsize="6" url="cargo/all" value={this.state.cargo_id} />
 					
-					{this.state.cargo_id == 2 ? 
+					{this.state.cargo_id === 2 ? 
 					<Select2Field value={this.state.perfil_id} name="perfil_id" colsize="6" onChange={this.handleChange} url_view="perfil/view" url_list="perfil/all" filterName="nome" 
 							displayName={["nome", "cpf", "pis"]} label="page.user.fields.perfil_id"  errors={this.state.fieldErrors} />
 					: ""}
@@ -259,7 +255,6 @@ class UsersMe extends BasePageForm
 		});
     }
 	async handleOnSubmitEdit(e) {
-		console.log("submit edit", this.state)
 
 		var errors = {"has": false}
 
@@ -285,7 +280,7 @@ class UsersMe extends BasePageForm
 	handleChangePassword(e)
 	{
 		let val = e.target.value;
-		if(e.target.value == "" ){
+		if(e.target.value === "" ){
 			val = undefined;
 		}
 		this.setState({
@@ -306,7 +301,7 @@ class UsersMe extends BasePageForm
 					<React.Fragment> 
 						<FormRow>
 							<InputInGroup autoFocus={true} value={this.state.email} type="email" name="email" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
-								label='page.user.fields.email' required="required" colsize="6" value={this.state.email}/>
+								label='page.user.fields.email' required="required" colsize="6" />
 							<InputInGroup value={this.state.email_confirm} type="email" name="email_confirm" errors={ this.state.fieldErrors }  onChange={ this.handleChange } 
 								label='page.user.fields.email_confirm' required="required" colsize="6"/>
 

@@ -37,7 +37,6 @@ class BasePageForm extends BasePage
     {
         if (res.data.error)
     	{
-			console.log("errors basePageForm", res.data)
 
 			let arrErrors = [];
     		if (res.data.validation_error !== undefined) {
@@ -57,7 +56,6 @@ class BasePageForm extends BasePage
 				AlertifyError(res.data.form);
 			}
 			if (res.data.message){
-				console.log("vai");
 				AlertifyError([{"message": res.data.message}]);
 			}
 
@@ -70,7 +68,6 @@ class BasePageForm extends BasePage
     {
         if (res.data.error)
     	{
-			console.log("errors basePageForm", res.data)
 
 			let arrErrors = [];
     		if (res.data.validation_error !== undefined) {
@@ -90,7 +87,6 @@ class BasePageForm extends BasePage
 				AlertifyError(res.data.form);
 			}
 			if (res.data.message){
-				console.log("vai");
 				AlertifyError([{"message": res.data.message}]);
 			}
 
@@ -101,11 +97,9 @@ class BasePageForm extends BasePage
     }
 
     async handleOnSubmit(e) {
-		console.log("submit", this.state)
     	Rest.post(this.props.urlBase, this.state).then(this.handleReceiveResponseRest);
     }
 	async handleOnSubmitEdit(e) {
-		console.log("submit edit", this.state)
 		Rest.put(this.props.urlBase + "/" + this.state.id, this.state).then(
 			this.handleReceiveResponseRest
 		);
@@ -120,7 +114,6 @@ class BasePageForm extends BasePage
         this.props.history.push("/" + this.props.urlBase.split('/')[0] + '/list');
     }
 	onClickEdit(event) {
-		console.log(event.target);
 		let url = "edit";
 		let id = this.state.id;
 		this.props.history.push({
