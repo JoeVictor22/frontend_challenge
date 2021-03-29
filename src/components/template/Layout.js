@@ -5,7 +5,6 @@ import MessageService from '../../services/MessageService';
 import { Properties } from '../../config';
 import { Icons } from '../../iconSet';
 import { formatString } from '../utils/Utils';
-import  { Redirect } from 'react-router-dom'
 
 import './Layout.css';
 import Cookies from 'js-cookie';
@@ -37,7 +36,7 @@ class SideBar extends Component
 	render()
 	{
 		return (
-			<ul className="sidebar navbar-nav">
+			<ul className="sidebar navbar-nav toggled">
 				{ this.props.children }
 			</ul>
 		);
@@ -161,7 +160,7 @@ class NavBar extends Component
 				</button>
 
 				<ul className="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
-					{this.props.role == "2" ? 
+					{this.props.role === "2" ? 
 					<li className="nav-item dropdown no-arrow user-profile-data">
 						<Link className="nav-link" to="/">
 							<div
@@ -184,7 +183,7 @@ class NavBar extends Component
 						</Link>
 						<div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
 							<Link className="dropdown-item" to="/usuario/me">{ Messages.getMessage('layout.navbar.user.edit_login') }</Link>
-							{this.props.role == "2"? 
+							{this.props.role === "2"? 
 							<Link className="dropdown-item" to="/perfil/me">{ Messages.getMessage('layout.navbar.user.edit_profile') }</Link>
 							: ""}
 							<div className="dropdown-divider"/>
@@ -204,7 +203,7 @@ class Footer extends Component
 	render()
 	{
 		return (
-			<footer className="sticky-footer">
+			<footer className="sticky-footer" style={{ width: "100%", zIndex: 2 }}>
 				<div className="container my-auto">
 					<div className="copyright text-center my-auto">
 						<span>{ Messages.getMessage('layout.copyright') } © { Properties.company } { Properties.year }</span><br/>

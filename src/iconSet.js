@@ -13,7 +13,9 @@ export const Icons = {
 	"table": "fas fa-table",
 	"padrao_qualidade": "fas fa-thumbs-up",
 	"save": "fas fa-save",
-	"fatura": "fas fa-money-check-alt",
 	"loading": "fas fa-circle-notch fa-spin",
+	"user": "fas fa-user",
+	"profile": "fas fa-id-card",
+	"profiles": "fas fa-users-cog"
 };
 

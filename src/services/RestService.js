@@ -1,5 +1,3 @@
-import axios from "axios";
-import { Properties } from "../config";
 import AuthService from "./AuthService";
 
 class RestService {

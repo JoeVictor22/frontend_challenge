@@ -49,7 +49,6 @@ class BasePageList extends BasePage
 	handleReceiveDataPage(res)
 	{
 		if (this._isMounted)
-		console.log("res")
 		{
 			if(res?.data.pagination){
 				let pagination = {
@@ -76,12 +75,10 @@ class BasePageList extends BasePage
 
 	handleChange(e)
 	{
-		console.log(e.target.value);
 		this.setState({[e.target.name]: e.target.value})
 	}
 
 	handleOnSubmitFilter(e) {
-		console.log(this.state);
 		let chaves = Object.keys(this.state);
 		let parameters = {};
 		for (let i = 0; i < chaves.length; i++) {

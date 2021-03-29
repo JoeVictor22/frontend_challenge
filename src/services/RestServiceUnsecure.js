@@ -10,7 +10,6 @@ class RestServiceUnsecure {
     .catch((error) => {
 	// in case of error, this is the data persisted to the client
 
-	console.log("error axiosHandlerUnsecure", error.response);
       let res = {
         'error': true,
         'data': {
@@ -24,14 +23,12 @@ class RestServiceUnsecure {
 /*----------------------------------------------------------------------------------------------------*/
 
   _checkStatus(response) {
-	console.log("status", response)
 	    if (response.status >= 200 && response.status < 300) {
 		return response;
 	    }else {
 	      var error = new Error(response.statusText);
 	      error.response = response;
 	      
-	      console.log("status", error)
 	      throw error;
 		}
 	  }

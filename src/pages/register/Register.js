@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
-import AuthService from '../../services/AuthService';
-import MessageService from '../../services/MessageService';
 import { AlertifyError, AlertifySuccess } from '../../services/AlertifyService';
-import { CenterCard, FormPage, FormRow } from '../../components/template/Layout';
-import { InputInGroup, RememberMeInGroup, ButtonSubmit, SelectField, InputCpf, InputCep, ButtonCancel, InputPis } from '../../components/template/Form';
+import { CenterCard, FormRow } from '../../components/template/Layout';
+import { InputInGroup, ButtonSubmit, InputCpf, InputCep, ButtonCancel, InputPis } from '../../components/template/Form';
 import { Select2Field } from '../../components/template/FormUnsecure';
 
 import RestServiceUnsecure from '../../services/RestServiceUnsecure';
 
-const Message = new MessageService();
 
 const Rest = new RestServiceUnsecure();
-const Auth = new AuthService();
 
 
 class Register extends Component 
@@ -32,7 +28,6 @@ class Register extends Component
     {
         if (res.data.error)
     	{
-			console.log("errors basePageForm", res.data)
 
 			let arrErrors = [];
     		if (res.data.validation_error !== undefined) {
@@ -52,7 +47,6 @@ class Register extends Component
 				AlertifyError(res.data.form);
 			}
 			if (res.data.message){
-				console.log("vai");
 				AlertifyError([{"message": res.data.message}]);
 			}
 
@@ -63,7 +57,6 @@ class Register extends Component
     }
 
     async handleOnSubmit(e) {
-		console.log("submit", this.state)
 			
 		var errors = {"has": false}
 
@@ -155,7 +148,8 @@ class Register extends Component
 	handleChange(e)
 	{
         this.setState({
-                [e.target.name]: e.target.value
+                [e.target.name]: e.target.value,
+				fieldErrors: []
             }
         )
     }

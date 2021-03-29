@@ -28,7 +28,6 @@ class AuthService {
 
     }).then((res) => {
 
-      console.log("res login", res)
       if (!res.data.error) {
         
         this.setToken(res.data.access_token);
@@ -94,7 +93,6 @@ class AuthService {
           },
         }).then((res) => {
           if (res.status === 200) {
-            console.log("token refreshed");
             self.setToken(res.data.access_token);
 
             let request = {
@@ -158,7 +156,6 @@ class AuthService {
     .catch((error) => {
 	// in case of error, this is the data persisted to the client
 
-	  console.log("error axiosHandler", error, error.response);
       let res = {
         'error': true,
         'data': {
@@ -172,14 +169,12 @@ class AuthService {
     /*----------------------------------------------------------------------------------------------------*/
 
   _checkStatus(response) {
-	console.log("status", response)
 	    if (response.status >= 200 && response.status < 300) {
 		return response;
 	    }else {
 	      var error = new Error(response.statusText);
 	      error.response = response;
 	      
-	      console.log("status", error)
 	      throw error;
 		}
 	  }
